@@ -1,0 +1,116 @@
+\documentclass[standalone]{beamer}
+
+\begin{document}
+\section{Section 1}
+
+\begin{frame}{\btitle{Algorithm A}}
+  \begin{enumerate}
+    \item 123
+    \item 456
+    \item 789
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{\btitle{Algorithm A}}
+  
+\begin{property}
+  123123123123
+\end{property}
+
+\begin{theorem}
+  Algorithm A is correct.
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{\btitle{Algorithm A}}
+  \begin{proof}
+    \begin{enumerate}
+      \item 123
+      \item 456
+      \item 789
+    \end{enumerate}
+  \end{proof}
+\end{frame}
+
+\begin{frame}{\btitle{Algorithm A}}
+
+  \begin{problem}[King Game]
+    King game king game.
+  \end{problem}
+
+\end{frame}
+
+\begin{frame}{\btitle{Algorithm B}}
+  \[ S_i = A_1 \oplus A_2 \oplus \ldots \oplus A_i \]
+  \begin{figure}[H]
+  \begin{tikzpicture}[scale=2]
+  \tikzset{vertex/.style = {shape=circle,draw,minimum size=1.5em}}
+  \tikzset{edge/.style = {-,> = latex'}}
+  \node[vertex,fill=gray!40] (a) at (0, 0) {$0$};
+  \only<4-> {
+  \node[vertex,fill=gray!40] (b) at (1, 0) {$1$};
+  }
+  \only<1-3> {
+  \node[vertex] (b) at (1, 0) {$1$};
+  }
+  \only<2-> {
+  \node[vertex,fill=gray!40] (c) at (2, 0) {$2$};
+  }
+  \only<1> {
+  \node[vertex] (c) at (2, 0) {$2$};
+  }
+  \only<6-> {
+  \node[vertex,fill=gray!40] (d) at (3, 0) {$3$};
+  }
+  \only<1-5> {
+  \node[vertex] (d) at (3, 0) {$3$};
+  }
+  \only<5-> {
+  \node[vertex,fill=gray!40] (e) at (4, 0) {$4$};
+  }
+  \only<1-4> {
+  \node[vertex] (e) at (4, 0) {$4$};
+  }
+  \only<3-> {
+  \node[vertex,fill=gray!40] (f) at (5, 0) {$5$};
+  }
+  \only<1-2> {
+  \node[vertex] (f) at (5, 0) {$5$};
+  }
+  \only<2-> {
+    \draw[edge, bend right] (a) to (c);
+  }
+  \only<3-> {
+    \draw[edge, bend right] (a) to (f);
+  }
+  \only<4-> {
+    \draw[edge, bend left] (b) to (c);
+  }
+  \only<5-> {
+    \draw[edge, bend left] (c) to (e);
+  }
+  \only<6-> {
+    \draw[edge, bend right] (b) to (d);
+  }
+  \end{tikzpicture}
+  \end{figure}
+  \only<2> {詢問 $L = 1$, $R = 2$}
+  \only<3> {詢問 $L = 1$, $R = 5$}
+  \only<4> {詢問 $L = 2$, $R = 2$}
+  \only<5> {詢問 $L = 3$, $R = 4$}
+  \only<6> {詢問 $L = 2$, $R = 3$}
+\end{frame}
+
+\begin{frame}[fragile]{\btitle{Code}}
+  \begin{minted}[linenos=false]{cpp}
+    int main() {
+      int a, b;
+      std::cin >> a >> b;
+      std::cout << a + b << "\n";
+      return 0;
+    }
+  \end{minted}
+\end{frame}
+
+\end{document}
