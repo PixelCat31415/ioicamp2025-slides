@@ -35,7 +35,7 @@
 %\usepackage{CJKulem}
 %\usepackage{enumitem}
 \usepackage{tikz}
-\usetikzlibrary{calc, fit, backgrounds}
+\usetikzlibrary{calc, fit, backgrounds, arrows, arrows.meta, positioning, calc}
 \usetikzlibrary{tikzmark}
 \tikzset {
   overlay node/.style={
@@ -45,6 +45,9 @@
 \usepackage{minted}
 \usepackage{python}
 \usepackage{algorithm2e}
+\usepackage{soul}
+\usepackage{forest}
+\usepackage{cancel}
 \definecolor{mgray}{rgb}{0.85, 0.85, 0.85}
 \colorlet{mgreen}{green!70!black}
 \newmintinline{cpp}{bgcolor=mgray}
@@ -57,9 +60,10 @@
 %\setCJKmainfont[BoldFont=cwTex Q Hei]{cwTex Q Ming}
 %\setCJKsansfont[BoldFont=cwTex Q Hei]{cwTex Q Ming}
 %\setCJKmonofont[BoldFont=cwTex Q Hei]{cwTex Q Ming}
-\setCJKmainfont[AutoFakeSlant,BoldFont=Source Han Sans TW Bold]{Noto Sans CJK TC}
+\setCJKmainfont[AutoFakeSlant,BoldFont=Noto Sans CJK TC Bold]{Noto Sans CJK TC}
 \setCJKmonofont[AutoFakeSlant]{Noto Sans Mono CJK TC}
-\newfontfamily\SHSTW{Source Han Sans TW}
+\newfontfamily\SHSTW{Noto Sans CJK TC}
+% using the font "Source Han Sans TC VF" fucks up everything (since 2024). WHY?
 
 \def\ofootnotesize{\fontsize{8}{12}}
 \def\footnotesize{\fontsize{6}{8}\selectfont}
@@ -123,10 +127,18 @@
 \newcommand*{\correspond}{\mathrel{\stackon[1.5pt]{=}{\stretchto{%
     \scalerel*[\widthof{=}]{\wedge}{\rule{1ex}{3ex}}}{0.5ex}}}}
 \newcommand*{\Expect}{{\rm I\kern-.3em E}}
+\newcommand{\ebtitle}{{\secname}}
 \newcommand{\btitle}[1]{{\secname} -- #1}
+\newcommand{\ectitle}{{\secname} -- {\subsecname}}
+\newcommand{\ctitle}[1]{{\secname} -- {\subsecname}：#1}
 \newcommand{\disskip}[1][1]{\vspace*{-#1\parskip}}%
 \renewcommand*{\sharp}{\mathlarger{\#}}
 \newcommand{\tikzoverlay}[2]{\tikz[baseline, remember picture]{ \node[overlay node] (#1) {#2}}}%
+\newcommand{\inc}[1]{\mintinline{cpp}{#1}}  % inline code
+\renewcommand<>{\sout}[1]{
+  \only#2{\beameroriginal{\sout}{#1}}
+  \invisible#2{#1}
+}
 
 \theoremstyle{definition}
 \newtheorem{theorem}{定理}
@@ -196,6 +208,17 @@
 
 }
 
+% \AtBeginSubsection[] {
+%   \begin{frame}{\secname}
+%     \vfill
+%     \centering
+%     \begin{beamercolorbox}[sep=6pt,center,shadow=true,rounded=true]{title}
+%       \usebeamerfont{title}\LARGE\insertsubsectionhead\par%
+%     \end{beamercolorbox}
+%     \vfill
+%   \end{frame}
+% }
+
 \makeatletter
 \let\save@measuring@true\measuring@true
 \def\measuring@true{%
@@ -206,33 +229,16 @@
 }
 \makeatother
 
-\title{Example}
-\author{your name}
+\title{進階資料結構}
+\author{邱翊均}
 
 \renewcommand*{\emph}[1]{{\bfseries #1}}
+\setcounter{tocdepth}{1}
 
 \begin{document}
 
-\begin{frame}
-  \titlepage
-\end{frame}
-
-\begin{frame}{講師簡介}
-  \begin{itemize}
-    \item Your name
-    \item Blah blah blah
-    \only<2> {
-    \item 因為想學習 Example 所以當 Example 講師
-    }
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{大綱}
-  \tableofcontents
-\end{frame}
-
-
-\input{section1}
+% \input{src/example}
+\input{src/intro}
 
 \end{document}
 
