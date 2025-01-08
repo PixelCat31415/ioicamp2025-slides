@@ -1,9 +1,8 @@
-# Slide template for IOIcamp
+# Slides for IOIcamp 2025 Advanced Data Structures
 
-## Prerequisite
-`pip install pygments`
-
-下載 CJK 字體：Noto Sans CJK TC, Noto Sans Mono CJK TC
-
-## Usage
-Linux 使用者可以直接執行 `./compile.sh`, Windows 的話自己想辦法用 `xelatex`。
+[ ] 很多很多線段樹
+    [ ] 李超線段樹
+    [ ] 時間線段樹
+    [X] 線段樹優化建圖
+[ ] Pattern
+[ ] 線段樹的暴力

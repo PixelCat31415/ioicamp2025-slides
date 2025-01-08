@@ -1,0 +1,157 @@
+\section{很多很多線段樹}
+
+\begin{frame}{\ebtitle}
+    \begin{figure}[h!]
+        \begin{center}
+            \begin{tikzpicture}[nodes = {transform shape}, scale=0.75]
+                \pgfdeclarelayer{bg}
+                \pgfsetlayers{bg, main}
+                \tikzset{x={(0.1cm, 0cm)}, y={(0cm, 0.1cm)}}
+            
+                \draw [very thick, black, fill=white!90!green] (0, 0) rectangle (146, 5) node[black, midway, align=center] (nd0) {};
+                \draw [very thick, black, fill=white!90!green] (0, -6) rectangle (74, -1) node[black, midway, align=center] (nd1) {};
+                \draw [very thick, black, fill=white!90!green] (0, -12) rectangle (38, -7) node[black, midway, align=center] (nd3) {};
+                \draw [very thick, black, fill=gray!80] (0, -18) rectangle (20, -13) node[black, midway, align=center] (nd7) {};
+                \draw [very thick, black, fill=gray!80] (0, -24) rectangle (11, -19) node[black, midway, align=center] (nd15) {};
+                \draw [very thick, black, fill=gray!80] (0, -30) rectangle (5, -25) node[black, midway, align=center] (nd31) {};
+                \draw [very thick, black, fill=gray!80] (0, -36) rectangle (2, -31) node[black, midway, align=center] (nd63) {};
+                \draw [very thick, black, fill=gray!80] (3, -36) rectangle (5, -31) node[black, midway, align=center] (nd64) {};
+                \draw [very thick, black, fill=gray!80] (6, -30) rectangle (11, -25) node[black, midway, align=center] (nd32) {};
+                \draw [very thick, black, fill=gray!80] (6, -36) rectangle (8, -31) node[black, midway, align=center] (nd65) {};
+                \draw [very thick, black, fill=gray!80] (9, -36) rectangle (11, -31) node[black, midway, align=center] (nd66) {};
+                \draw [very thick, black, fill=gray!80] (12, -24) rectangle (20, -19) node[black, midway, align=center] (nd16) {};
+                \draw [very thick, black, fill=gray!80] (12, -30) rectangle (17, -25) node[black, midway, align=center] (nd33) {};
+                \draw [very thick, black, fill=gray!80] (12, -36) rectangle (14, -31) node[black, midway, align=center] (nd67) {};
+                \draw [very thick, black, fill=gray!80] (15, -36) rectangle (17, -31) node[black, midway, align=center] (nd68) {};
+                \draw [very thick, black, fill=gray!80] (18, -30) rectangle (20, -25) node[black, midway, align=center] (nd34) {};
+                \draw [very thick, black, fill=white!90!green] (21, -18) rectangle (38, -13) node[black, midway, align=center] (nd8) {};
+                \draw [very thick, black, fill=white!90!green] (21, -24) rectangle (29, -19) node[black, midway, align=center] (nd17) {};
+                \draw [very thick, black, fill=white!90!green] (21, -30) rectangle (26, -25) node[black, midway, align=center] (nd35) {};
+                \draw [very thick, black, fill=gray!80] (21, -36) rectangle (23, -31) node[black, midway, align=center] (nd71) {};
+                \draw [very thick, black, fill=white!40!green] (24, -36) rectangle (26, -31) node[black, midway, align=center] (nd72) {};
+                \draw [very thick, black, fill=white!40!green] (27, -30) rectangle (29, -25) node[black, midway, align=center] (nd36) {};
+                \draw [very thick, black, fill=white!40!green] (30, -24) rectangle (38, -19) node[black, midway, align=center] (nd18) {};
+                \draw [very thick, black, fill=gray!80] (30, -30) rectangle (35, -25) node[black, midway, align=center] (nd37) {};
+                \draw [very thick, black, fill=gray!80] (30, -36) rectangle (32, -31) node[black, midway, align=center] (nd75) {};
+                \draw [very thick, black, fill=gray!80] (33, -36) rectangle (35, -31) node[black, midway, align=center] (nd76) {};
+                \draw [very thick, black, fill=gray!80] (36, -30) rectangle (38, -25) node[black, midway, align=center] (nd38) {};
+                \draw [very thick, black, fill=white!40!green] (39, -12) rectangle (74, -7) node[black, midway, align=center] (nd4) {};
+                \draw [very thick, black, fill=gray!80] (39, -18) rectangle (56, -13) node[black, midway, align=center] (nd9) {};
+                \draw [very thick, black, fill=gray!80] (39, -24) rectangle (47, -19) node[black, midway, align=center] (nd19) {};
+                \draw [very thick, black, fill=gray!80] (39, -30) rectangle (44, -25) node[black, midway, align=center] (nd39) {};
+                \draw [very thick, black, fill=gray!80] (39, -36) rectangle (41, -31) node[black, midway, align=center] (nd79) {};
+                \draw [very thick, black, fill=gray!80] (42, -36) rectangle (44, -31) node[black, midway, align=center] (nd80) {};
+                \draw [very thick, black, fill=gray!80] (45, -30) rectangle (47, -25) node[black, midway, align=center] (nd40) {};
+                \draw [very thick, black, fill=gray!80] (48, -24) rectangle (56, -19) node[black, midway, align=center] (nd20) {};
+                \draw [very thick, black, fill=gray!80] (48, -30) rectangle (53, -25) node[black, midway, align=center] (nd41) {};
+                \draw [very thick, black, fill=gray!80] (48, -36) rectangle (50, -31) node[black, midway, align=center] (nd83) {};
+                \draw [very thick, black, fill=gray!80] (51, -36) rectangle (53, -31) node[black, midway, align=center] (nd84) {};
+                \draw [very thick, black, fill=gray!80] (54, -30) rectangle (56, -25) node[black, midway, align=center] (nd42) {};
+                \draw [very thick, black, fill=gray!80] (57, -18) rectangle (74, -13) node[black, midway, align=center] (nd10) {};
+                \draw [very thick, black, fill=gray!80] (57, -24) rectangle (65, -19) node[black, midway, align=center] (nd21) {};
+                \draw [very thick, black, fill=gray!80] (57, -30) rectangle (62, -25) node[black, midway, align=center] (nd43) {};
+                \draw [very thick, black, fill=gray!80] (57, -36) rectangle (59, -31) node[black, midway, align=center] (nd87) {};
+                \draw [very thick, black, fill=gray!80] (60, -36) rectangle (62, -31) node[black, midway, align=center] (nd88) {};
+                \draw [very thick, black, fill=gray!80] (63, -30) rectangle (65, -25) node[black, midway, align=center] (nd44) {};
+                \draw [very thick, black, fill=gray!80] (66, -24) rectangle (74, -19) node[black, midway, align=center] (nd22) {};
+                \draw [very thick, black, fill=gray!80] (66, -30) rectangle (71, -25) node[black, midway, align=center] (nd45) {};
+                \draw [very thick, black, fill=gray!80] (66, -36) rectangle (68, -31) node[black, midway, align=center] (nd91) {};
+                \draw [very thick, black, fill=gray!80] (69, -36) rectangle (71, -31) node[black, midway, align=center] (nd92) {};
+                \draw [very thick, black, fill=gray!80] (72, -30) rectangle (74, -25) node[black, midway, align=center] (nd46) {};
+                \draw [very thick, black, fill=white!90!green] (75, -6) rectangle (146, -1) node[black, midway, align=center] (nd2) {};
+                \draw [very thick, black, fill=white!40!green] (75, -12) rectangle (110, -7) node[black, midway, align=center] (nd5) {};
+                \draw [very thick, black, fill=gray!80] (75, -18) rectangle (92, -13) node[black, midway, align=center] (nd11) {};
+                \draw [very thick, black, fill=gray!80] (75, -24) rectangle (83, -19) node[black, midway, align=center] (nd23) {};
+                \draw [very thick, black, fill=gray!80] (75, -30) rectangle (80, -25) node[black, midway, align=center] (nd47) {};
+                \draw [very thick, black, fill=gray!80] (75, -36) rectangle (77, -31) node[black, midway, align=center] (nd95) {};
+                \draw [very thick, black, fill=gray!80] (78, -36) rectangle (80, -31) node[black, midway, align=center] (nd96) {};
+                \draw [very thick, black, fill=gray!80] (81, -30) rectangle (83, -25) node[black, midway, align=center] (nd48) {};
+                \draw [very thick, black, fill=gray!80] (84, -24) rectangle (92, -19) node[black, midway, align=center] (nd24) {};
+                \draw [very thick, black, fill=gray!80] (84, -30) rectangle (89, -25) node[black, midway, align=center] (nd49) {};
+                \draw [very thick, black, fill=gray!80] (84, -36) rectangle (86, -31) node[black, midway, align=center] (nd99) {};
+                \draw [very thick, black, fill=gray!80] (87, -36) rectangle (89, -31) node[black, midway, align=center] (nd100) {};
+                \draw [very thick, black, fill=gray!80] (90, -30) rectangle (92, -25) node[black, midway, align=center] (nd50) {};
+                \draw [very thick, black, fill=gray!80] (93, -18) rectangle (110, -13) node[black, midway, align=center] (nd12) {};
+                \draw [very thick, black, fill=gray!80] (93, -24) rectangle (101, -19) node[black, midway, align=center] (nd25) {};
+                \draw [very thick, black, fill=gray!80] (93, -30) rectangle (98, -25) node[black, midway, align=center] (nd51) {};
+                \draw [very thick, black, fill=gray!80] (93, -36) rectangle (95, -31) node[black, midway, align=center] (nd103) {};
+                \draw [very thick, black, fill=gray!80] (96, -36) rectangle (98, -31) node[black, midway, align=center] (nd104) {};
+                \draw [very thick, black, fill=gray!80] (99, -30) rectangle (101, -25) node[black, midway, align=center] (nd52) {};
+                \draw [very thick, black, fill=gray!80] (102, -24) rectangle (110, -19) node[black, midway, align=center] (nd26) {};
+                \draw [very thick, black, fill=gray!80] (102, -30) rectangle (107, -25) node[black, midway, align=center] (nd53) {};
+                \draw [very thick, black, fill=gray!80] (102, -36) rectangle (104, -31) node[black, midway, align=center] (nd107) {};
+                \draw [very thick, black, fill=gray!80] (105, -36) rectangle (107, -31) node[black, midway, align=center] (nd108) {};
+                \draw [very thick, black, fill=gray!80] (108, -30) rectangle (110, -25) node[black, midway, align=center] (nd54) {};
+                \draw [very thick, black, fill=white!90!green] (111, -12) rectangle (146, -7) node[black, midway, align=center] (nd6) {};
+                \draw [very thick, black, fill=white!40!green] (111, -18) rectangle (128, -13) node[black, midway, align=center] (nd13) {};
+                \draw [very thick, black, fill=gray!80] (111, -24) rectangle (119, -19) node[black, midway, align=center] (nd27) {};
+                \draw [very thick, black, fill=gray!80] (111, -30) rectangle (116, -25) node[black, midway, align=center] (nd55) {};
+                \draw [very thick, black, fill=gray!80] (111, -36) rectangle (113, -31) node[black, midway, align=center] (nd111) {};
+                \draw [very thick, black, fill=gray!80] (114, -36) rectangle (116, -31) node[black, midway, align=center] (nd112) {};
+                \draw [very thick, black, fill=gray!80] (117, -30) rectangle (119, -25) node[black, midway, align=center] (nd56) {};
+                \draw [very thick, black, fill=gray!80] (120, -24) rectangle (128, -19) node[black, midway, align=center] (nd28) {};
+                \draw [very thick, black, fill=gray!80] (120, -30) rectangle (125, -25) node[black, midway, align=center] (nd57) {};
+                \draw [very thick, black, fill=gray!80] (120, -36) rectangle (122, -31) node[black, midway, align=center] (nd115) {};
+                \draw [very thick, black, fill=gray!80] (123, -36) rectangle (125, -31) node[black, midway, align=center] (nd116) {};
+                \draw [very thick, black, fill=gray!80] (126, -30) rectangle (128, -25) node[black, midway, align=center] (nd58) {};
+                \draw [very thick, black, fill=white!90!green] (129, -18) rectangle (146, -13) node[black, midway, align=center] (nd14) {};
+                \draw [very thick, black, fill=white!90!green] (129, -24) rectangle (137, -19) node[black, midway, align=center] (nd29) {};
+                \draw [very thick, black, fill=white!90!green] (129, -30) rectangle (134, -25) node[black, midway, align=center] (nd59) {};
+                \draw [very thick, black, fill=white!40!green] (129, -36) rectangle (131, -31) node[black, midway, align=center] (nd119) {};
+                \draw [very thick, black, fill=gray!80] (132, -36) rectangle (134, -31) node[black, midway, align=center] (nd120) {};
+                \draw [very thick, black, fill=gray!80] (135, -30) rectangle (137, -25) node[black, midway, align=center] (nd60) {};
+                \draw [very thick, black, fill=gray!80] (138, -24) rectangle (146, -19) node[black, midway, align=center] (nd30) {};
+                \draw [very thick, black, fill=gray!80] (138, -30) rectangle (143, -25) node[black, midway, align=center] (nd61) {};
+                \draw [very thick, black, fill=gray!80] (138, -36) rectangle (140, -31) node[black, midway, align=center] (nd123) {};
+                \draw [very thick, black, fill=gray!80] (141, -36) rectangle (143, -31) node[black, midway, align=center] (nd124) {};
+                \draw [very thick, black, fill=gray!80] (144, -30) rectangle (146, -25) node[black, midway, align=center] (nd62) {};
+            \end{tikzpicture}
+        \end{center}
+        \caption{$N = 49$，區間查詢 $[9, 44]$（Source：2024 基礎資結投影片）}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{\btitle{前言}}
+    你一定寫過線段樹！
+
+    線段樹普及，大家都會用線段樹砸區間操作 \\
+    你都用線段樹做過什麼事情？
+\end{frame}
+
+\begin{frame}{\btitle{前言}}
+    \begin{itemize}
+        \item \tikzoverlay{nd0}{}區間求和、極值、最大公因數
+        \item \tikzoverlay{nd1}{}單點修改、區間加值
+        \item \tikzoverlay{nd2}{}歷史版本的區間和
+        \item \tikzoverlay{nd3}{}區間最大連續和
+        \item \tikzoverlay{nd4}{}區間 MEX、矩形覆蓋面積
+        \item \tikzoverlay{nd5}{}靜態區間和 \only<2>{\brilliance{blunder}}
+    \end{itemize}
+
+    \only<2> {
+        \begin{tikzpicture}[remember picture, overlay]
+            \node[right=6cm of nd0, anchor=base west] {一般線段樹};
+            \node[right=6cm of nd1, anchor=base west] {懶人標記};
+            \node[right=6cm of nd2, anchor=base west] {持久化};
+            \node[right=6cm of nd3, anchor=base west] {分治};
+            \node[right=6cm of nd4, anchor=base west] {離線、掃描線};
+            \node[right=6cm of nd5, anchor=base west] {拜託不要};
+        \end{tikzpicture}
+    }
+\end{frame}
+
+\begin{frame}{\btitle{前言}}
+    不只是區間詢問，線段樹可以有更多花樣！
+
+    \begin{itemize}
+        \item 李超線段樹
+        \item 時間線段樹
+        \item 線段樹優化建圖
+    \end{itemize}
+\end{frame}
+
+
+% \input{src/li-chao-segtree.tex}
+% \input{src/time-segtree.tex}
+\input{src/building-graph.tex}
+

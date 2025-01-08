@@ -48,6 +48,9 @@
 \usepackage{soul}
 \usepackage{forest}
 \usepackage{cancel}
+\usepackage{svg}
+
+
 \definecolor{mgray}{rgb}{0.85, 0.85, 0.85}
 \colorlet{mgreen}{green!70!black}
 \newmintinline{cpp}{bgcolor=mgray}
@@ -129,8 +132,8 @@
 \newcommand*{\Expect}{{\rm I\kern-.3em E}}
 \newcommand{\ebtitle}{{\secname}}
 \newcommand{\btitle}[1]{{\secname} -- #1}
-\newcommand{\ectitle}{{\secname} -- {\subsecname}}
-\newcommand{\ctitle}[1]{{\secname} -- {\subsecname}：#1}
+\newcommand{\ectitle}{\subsecname}
+\newcommand{\ctitle}[1]{{\subsecname} -- #1}
 \newcommand{\disskip}[1][1]{\vspace*{-#1\parskip}}%
 \renewcommand*{\sharp}{\mathlarger{\#}}
 \newcommand{\tikzoverlay}[2]{\tikz[baseline, remember picture]{ \node[overlay node] (#1) {#2}}}%
@@ -208,16 +211,16 @@
 
 }
 
-% \AtBeginSubsection[] {
-%   \begin{frame}{\secname}
-%     \vfill
-%     \centering
-%     \begin{beamercolorbox}[sep=6pt,center,shadow=true,rounded=true]{title}
-%       \usebeamerfont{title}\LARGE\insertsubsectionhead\par%
-%     \end{beamercolorbox}
-%     \vfill
-%   \end{frame}
-% }
+\AtBeginSubsection[] {
+  \begin{frame}{\secname}
+    \vfill
+    \centering
+    \begin{beamercolorbox}[sep=6pt,center,shadow=true,rounded=true]{title}
+      \usebeamerfont{title}\LARGE\insertsubsectionhead\par%
+    \end{beamercolorbox}
+    \vfill
+  \end{frame}
+}
 
 \makeatletter
 \let\save@measuring@true\measuring@true
@@ -232,6 +235,7 @@
 \title{進階資料結構}
 \author{邱翊均}
 
+\newcommand{\brilliance}[1]{\raisebox{-.25\height}{\includesvg{images/brilliance_v2/svg/#1.svg}}}
 \renewcommand*{\emph}[1]{{\bfseries #1}}
 \setcounter{tocdepth}{1}
 
@@ -239,6 +243,9 @@
 
 % \input{src/example}
 \input{src/intro}
+\input{src/segtree}
+% \input{src/pattern}
+% \input{src/amortized}
 
 \end{document}
 
