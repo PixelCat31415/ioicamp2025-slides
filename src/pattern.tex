@@ -1,0 +1,412 @@
+\section{Pattern}
+
+\begin{frame}{\ebtitle}
+    \begin{quote}
+        資料結構往往不會赤裸出現 \\
+    
+        不是「我要用這個資結砸掉這題」\\
+        而是「這題需要這樣做，所以可以拿這個資結砸掉」\\
+        永遠都先想怎麼做，再尋找合適的資結幫助你 \\
+
+        -- 2024 基礎資結
+    \end{quote}
+
+    \only<2> {
+        有時候，題目要你維護的東西實在是太荒謬了，你需要自己創造可以維護的東西去維護
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Taxis}}
+    \begin{problem}[Taxis，POI 2018]
+        現在有 $n$ 台計程車編號 $1\sim n$，對於第 $i$ 台計程車，給定 $s_i,c_i$，代表該台計程車的收費方式為 $s_i + d\times c_i$，其中 $d$ 為里程數。
+
+        給定一個 $1\sim n$的排列，請問是否存在一個里程數 $x/y$，使得把所有計程車的編號照著收費由小到大列出\only<1-3>{恰好是這個排列}\only<4>{\yum{恰好是這個排列？？？}}（當收費價格一樣，順序可以任意安排），若存在的話請輸出任意一組解，否則輸出「NIE」。
+
+        \only<1-2> {
+            \only<1>{接著會有 $q$ 筆修改}\only<2>{\yum{接著會有 $q$ 筆修改}}，每筆修改會有 $a_i,b_i$，代表交換排列在 $a_i$ 和 $b_i$ 的數字，每次交換後皆須輸出先前問題的答案。\only<2>{\yum{？？？}}
+        }
+
+        \begin{itemize}
+            \item $1\le n\le 5\times10^5$。
+            \item $1\le q\le 5\times10^5$。
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\btitle{Taxis}}
+    什麼時候......
+
+    \begin{itemize}
+        \item \only<2->{\emoji{vomiting_face}} \sout<2->{計程車照收費排序剛好是 $1, 2, \dots, n$}
+        \only<3-> {
+            \item \only<4>{\emoji{smiling face with hearts}} $1$ 號車收費 $\leq 2$ 號，而且
+            \item \only<4>{\emoji{smiling face with hearts}} $2$ 號車收費 $\leq 3$ 號，而且
+            \item ......
+            \item \only<4>{\emoji{smiling face with hearts}} $n - 1$ 號車收費 $\leq n$ 號
+        }
+    \end{itemize}
+
+    \only<4> {
+        $n = 2$ 我們總會做了吧？
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Taxis}}
+    只考慮 $i$ 號車和 $i + 1$ 號車，可以滿足「$i$ 在 $i + 1$ 前面」的距離 $d$ 是一個 $d \leq \square$ 或 $d \geq \square$ 的限制
+
+    當每一組相鄰計程車的順序都滿足，所有車就會照順序排好
+    
+    \only<2> {
+        維護一坨射線有沒有交集 \\
+        可以用兩個 multiset 維護
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Taxis}}
+    帶修改？
+
+    \sout<2->{「每筆修改會有 $a_i,b_i$，代表交換排列在 $a_i$ 和 $b_i$ 的數字」}
+    \only<2-> {
+        \\每次都做兩個單點修改
+    }
+
+    \only<3> {
+        時間複雜度：一次詢問 $O(1)$ 次 multiset 操作，總共 $O((n + q) \log n)$
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Grades}}
+    \begin{problem}[Grades，POI 2017]
+        有 $n$ 位學生編號 $1\sim n$ 以任意順序由左到右排成一列，現在你要派給這 $n$ 位學生成績，成績必須是一個介於 $1\sim n$之間的數字，且必須滿足以下條件：
+
+        \begin{itemize}
+            \item 若學生 $u$ 的編號比學生 $v$ 大，則學生 $u$ 的成績不可以小於學生 $v$。
+            \item 若學生 $v$ 排在學生 $u$ 右邊一位，則學生 $v$ 的成績不可以小於學生 $u$，不然他會很傷心。
+        \end{itemize}
+
+            請問最多可以有多少不同的成績種類被派送出去？
+
+            接著會有 $z$ 筆修改，每筆修改會有 $p_i,q_i$，代表交換排在位置 $p_i$ 和 $q_i$ 的學生編號，每次交換後皆須輸出先前問題的答案。
+        \begin{itemize}
+            \item $1\le n\le 10^6$。
+            \item $1\le z\le 3\times10^5$。
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\btitle{Grades}}
+    TL;DR
+
+    有 $n$ 個學生從左到右排成一列，編號大的、排左邊的，成績要比較高。最多能派出幾種不同的成績？
+
+    \only<2-> {
+        \only<3>{\emoji{see-no-evil monkey}} \sout<3>{$z$ 次修改，每次交換隊伍裡兩個學生的位置}
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Grades}}
+    $n = 2$......
+
+    \begin{itemize}
+        \item $[2, 1]$：兩種
+        \item $[1, 2]$：一種
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\btitle{Grades}}
+    有兩個人 $u < v$......
+
+    \begin{itemize}
+        \item $v$ 排 $u$ 左邊\only<2>{：$v$ 的分數本來就該比較高}
+        \item $u$ 排 $v$ 左邊\only<2>{：$u, u + 1, \dots, v - 1, v$ 的分數全都要一樣！}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\btitle{Grades}}
+    看兩兩相鄰學生的編號關係，獲得（最多）$n - 1$ 條限制「$u_i, u_i + 1, \dots, v_i - 1, v_i$ 的分數要一樣」
+
+    \only<2> {
+        要怎麼詢問「最多能派出幾種不同的成績」？
+    }
+
+    \only<3> {
+        每條限制都是「$u_i + 1, \dots, v_i - 1, v_i$ 的分數都固定了，只有 $u_i$ 的分數可以自由決定」\\
+        最後數數看有幾個人的分數可以自由決定
+    }
+
+    \only<4> {
+        每條限制都是「\yum{$u_i + 1, \dots, v_i - 1, v_i$} 的分數都固定了，只有 $u_i$ 的分數可以自由決定」\\
+        最後數數看有幾個人的分數可以自由決定
+
+        \yum{區間加值（$\pm 1$），數數看全域有幾個 $0$}
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Grades}}
+    帶修改（交換兩人位置）？
+    
+    依然可以是兩次單點修改
+\end{frame}
+
+\begin{frame}{\btitle{Grades}}
+    區間加值、單點修改、數全域有幾個 $0$
+
+    拿你最喜歡的資料結構砸掉 \\
+    時間複雜度 $O((n + z) \log n)$
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    我們是怎麼做完前面兩題的？
+
+    \begin{itemize}
+        \item 題目要維護的東西難以維護（整個排列的長相）
+        \item 找到小小的特徵點，用小特徵湊出題目要的條件（排列中相鄰元素關係）
+        \item 小特徵足夠單純可以維護（multiset、線段樹）
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    \begin{problem}[Seats，IOI 2018]
+        （完整敘述請見講義）\\
+
+        有 $H \times W$ 個位子排成一個矩形，還有 $HW$ 位選手每人分別佔一個位置。有幾個 $r \times c$ \yum{矩形區域}內坐的選手的編號恰好是 $0, 1, \dots, rc - 1$？\\
+
+        支援 $Q$ 次修改，每次交換兩位選手的位置，每次交換完輸出以上問題的答案。\\
+
+        \begin{itemize}
+            \item $1 \le H \times W \le 10^6$
+            \item $1 \le Q \le 5 \times 10^4$
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    \begin{problem}[Seats，IOI 2018]
+        Subtasks
+
+        \begin{itemize}
+            \item (5) $HW \le 100$，$Q \le 5000$
+            \item (6) $HW \le 10^4$，$Q \le 5000$
+            \item (20) $H \le 1000$，$W \le 1000$，$Q \le 5000$
+            \item (6) $Q \le 5000$，對於每次交換 $|a - b| \le 10^4$
+            \item (33) $H = 1$
+            \item (30) 無額外限制
+        \end{itemize}
+    \end{problem}
+    
+    拿零分還可以金牌的難題！？
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    選手一個一個坐進去，檢查他們是不是坐成矩形的樣子
+
+    躲不開的障礙：\\
+    要怎麼檢查一個矩形範圍是不是好的？\\
+    要怎麼檢查 $0, \dots, rc - 1$ 的範圍是不是好的？
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    \begin{problem}[Seats，IOI 2018]
+        Subtasks
+
+        \begin{itemize}
+            \item (5) $HW \le 100$，$Q \le 5000$
+            \item (6) $HW \le 10^4$，$Q \le 5000$
+            \item (20) $H \le 1000$，$W \le 1000$，$Q \le 5000$
+            \item (6) $Q \le 5000$，對於每次交換 $|a - b| \le 10^4$
+            \item \tikzoverlay{nd0}{}\yum{(33) $H = 1$}
+            \item (30) 無額外限制
+        \end{itemize}
+    \end{problem}
+
+    二維太荒謬了，先想辦法搞定一維
+
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[draw=WildStrawberry, very thick, left=0.1cm of nd0, anchor=base west] {\phantom{\yum{(33) $H = 1$}}};
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    選手一個一個坐進去，檢查他們是不是坐成連續區間的樣子
+
+    躲不開的障礙：\\
+    要怎麼檢查一個區間是不是好的？\\
+    要怎麼檢查 $0, \dots, rc - 1$ 的範圍是不是好的？
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    \todo 插圖
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    把 $0, \dots, rc - 1$ 塗黑色，其他格子和界外留白。他們剛好在一個連續區間的\yum{充要條件}是......
+
+    \only<2> {
+        對於每一組相鄰的格子，\yum{恰好有兩組是一黑一白} \\
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    \todo 插圖
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    把 $0, 1, \dots, HW - 1$ 一個一個塗黑，每個時間點檢查是不是恰好兩組格子是一黑一白
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    對於每一組相鄰的格子，他們在\only<1>{哪些時間是一黑一白？}\only<2->{\strong{某個連續的時間區間}是一黑一白}
+
+    \only<2> {
+        拿出你最喜歡的資料結構，維護每個時間點一黑一白的格子有幾組，數數看全域有幾個 $2$
+    }
+
+    \only<3> {
+        拿出你最喜歡的資料結構，維護每個時間點一黑一白的格子有幾組，\yum{數數看全域有幾個 $2$？？？}
+    }
+
+    \only<4> {
+        只要有格子是黑的，一黑一白的格子就至少有兩組
+
+        拿出你最喜歡的資料結構，維護每個時間點一黑一白的格子有幾組，\strong{檢查全域最小值是不是 $2$、數數看最小值有幾個}
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    修改？還是可以兩次單點修改
+
+    時間複雜度：$O((W + Q) \log W)$
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    \begin{problem}[Seats，IOI 2018]
+        Subtasks
+
+        \begin{itemize}
+            \item (5) $HW \le 100$，$Q \le 5000$
+            \item (6) $HW \le 10^4$，$Q \le 5000$
+            \item (20) $H \le 1000$，$W \le 1000$，$Q \le 5000$
+            \item (6) $Q \le 5000$，對於每次交換 $|a - b| \le 10^4$
+            \item (33) $H = 1$
+            \item \tikzoverlay{nd0}{}\yum{(30) 無額外限制}
+        \end{itemize}
+    \end{problem}
+
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[draw=WildStrawberry, very thick, left=0.1cm of nd0, anchor=base west] {\phantom{\yum{(30) 無額外限制}}};
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    \todo 插圖
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    把 $0, \dots, rc - 1$ 塗黑色，其他格子和界外留白。他們剛好形成一個矩形的\yum{充要條件}是......
+
+    \only<2> {
+        對於每一塊 $2 \times 2$ 相鄰的格子，
+        \begin{itemize}
+            \item 恰好四塊是一黑三白
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    \todo 插圖：甜甜圈
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    把 $0, \dots, rc - 1$ 塗黑色，其他格子和界外留白。他們剛好形成一個矩形的\yum{充要條件}是......
+
+    對於每一塊 $2 \times 2$ 相鄰的格子，
+    \begin{itemize}
+        \item 恰好 $4$ 塊是一黑三白
+        \item \strong{沒有任何一塊是三黑一白}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    \todo 插圖
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    對於每一組 $2 \times 2$ 的格子，他們在\only<1>{哪些時間是一黑三白、或是三黑一白？}\only<2->{\strong{某個連續的時間區間}是一黑三白、或是三黑一白}
+
+    \only<2> {
+        只要有格子是黑的，一黑三白的格子就至少有 $4$ 組
+
+        拿出你最喜歡的資料結構，維護每個時間點一黑三白、三黑一白的格子有幾組，\strong{檢查全域最小值是不是 $4$、數數看最小值有幾個}
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    修改？還是可以兩次單點修改
+
+    \only<1> {
+        時間複雜度：$O((HW + Q) \log HW)$ \\
+        （多花點力氣 $O(HW + Q \log HW)$）
+    }
+
+    \only<2> {
+        時間複雜度：$O(HW + \yum{16}Q \log HW)$ \\
+        常數巨大！
+    }
+\end{frame}
+
+\begin{frame}{\btitle{好的連續子序列}}
+    \begin{problem}[好的連續子序列，台大演算法設計與分析（ADA）作業]
+        給定一個 $1, 2, \dots, N$ 的排列，試求有多少子區間 $[l,r]$，滿足該子區間是一個連續正整數的排列？
+
+        \begin{itemize}
+            \item $1\le N \le 5\times10^5$
+        \end{itemize}
+    \end{problem}
+
+    在 NEOJ 788 有可以傳的 Judge
+\end{frame}
+
+\begin{frame}{\btitle{好的連續子序列}}
+    跟一維的 Seats 比起來，少了修改，多了不是 $1$ 開頭的區間也要數數看
+
+    \only<2-> {
+        \begin{itemize}
+            \item 用 Seats 作法找出 $1$ 開頭的好區間有幾個
+            \item 把 $1$ 拿掉（讓他永遠是白色），找出 $2$ 開頭的好區間有幾個
+            \item ......
+            \item 把 $1, 2, \dots, N - 1$ 拿掉（讓他們永遠是白色），找出 $N$ 開頭的好區間有幾個
+        \end{itemize}
+    }
+
+    \only<3> {
+        題目沒叫你修改，但是你自己把「枚舉排列的開頭」當成 $N$ 次修改
+    }
+\end{frame}
+
+\begin{frame}{\btitle{好的連續子序列}}
+    \only<1> {
+        時間複雜度：$O(N \log N)$
+    }
+
+    \only<2> {
+        時間複雜度：\yum{至少 $O(4N \log N)$}
+
+        常數巨大！我在 NEOJ 吃 TLE
+    }
+\end{frame}
+
+\begin{frame}{\btitle{好的連續子序列：番外}}
+    本題官方作法是分治，也有其他使用大資料結構但可以時限內通過的作法
+
+    你能想到幾種不同的作法？
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    \begin{itemize}
+        \item 題目要維護的東西難以維護
+        \item 找到小小的特徵點，用小特徵湊出題目要的條件
+        \item 小特徵足夠單純可以維護
+    \end{itemize}
+
+    資結不是重點，重點是發現精妙的轉換和觀察
+\end{frame}
