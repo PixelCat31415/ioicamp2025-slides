@@ -1,0 +1,356 @@
+\subsection{李超線段樹}
+
+\begin{frame}{\ectitle}
+    \begin{problem}[動態凸包]
+        現在有 $Q$ 個操作，每個操作會是以下兩種中的一種：
+
+        \begin{itemize}
+            \item 加入一條直線 $y = mx + k$
+            \item 詢問在 $x = t$ 處最大的 $y$ 值
+        \end{itemize}
+
+        \begin{itemize}
+            \item $1\le Q \le 10^5$
+            \item $|m|, |k| \le 10^9$
+            \item $1 \le t \le 10^5$
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\ectitle}
+    用 set 維護上凸包上的線段，維護線段控制的左右界，每次加入直線先搜他控制的區間，往左右殺掉其他線段，查詢的時候二分搜是哪條線段代值進去。注意 iterator 使用、全整求線交點......
+
+    太麻煩了，而且常數不小\sout{，而且我沒寫過} \\
+    有沒有簡單一點的辦法？
+\end{frame}
+
+\begin{frame}{\ectitle}
+    李超線段樹：
+    \begin{itemize}
+        \item 對要查詢的\yum{值域}開線段樹，葉子代表單一一個 $x$ 的值
+        \item 每個節點存\yum{一條}對\yum{中點}來說 $y$ 最大的直線
+        \begin{itemize}
+            \item 對中點一定是有用的
+            \item 可能還對這個區間的其他一部分有用
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\ctitle{插入直線}}
+    原本節點上有一條直線 \\
+    這次詢問想插入另外一條直線
+
+    一個節點只能存一條線
+    誰要留下來？另一條線要去哪裡？
+\end{frame}
+
+\begin{frame}{\ctitle{插入直線}}
+    \only<1> {
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+            \draw[color=black, very thick] plot[domain=-5:5] (\x,{0.3 * \x + 2.8});
+            \draw[color=black, very thick] plot[domain=-5:5] (\x,{-0.2 * \x + 2.1});
+        \end{centikz}
+    }
+
+    \only<2> {
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+            \draw[color=black, very thick] plot[domain=-5:5] (\x,{-0.2 * \x + 2.1});
+            \draw[color=Lime, very thick] plot[domain=-5:5] (\x,{0.3 * \x + 2.8});
+            \node[anchor=south west] at (0, 3) {\brilliance{best}};
+        \end{centikz}
+    }
+
+    \only<3> {
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+            
+            \draw[color=DarkSeaGreen, very thick] plot[domain=-5:-1.4] (\x,{-0.2 * \x + 2.1});
+            \draw[color=Red, very thick] plot[domain=-1.4:5] (\x,{-0.2 * \x + 2.1});
+            \node[anchor=south] at (-3.2, 2.84) {\brilliance{good}};
+            \node[anchor=south] at (2.5, 1.7) {\brilliance{incorrect}};
+            
+            \draw[color=Lime, very thick] plot[domain=-5:5] (\x,{0.3 * \x + 2.8});
+            \node[anchor=south west] at (0, 3) {\brilliance{best}};
+        \end{centikz}
+    }
+\end{frame}
+
+\begin{frame}{\ctitle{插入直線}}
+    \only<1> {
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+            \draw[color=black, very thick] plot[domain=-5:5] (\x,{0.3 * \x + 2.1});
+            \draw[color=black, very thick] plot[domain=-5:5] (\x,{-0.2 * \x + 2.8});
+        \end{centikz}
+    }
+
+    \only<2> {
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+            \draw[color=black, very thick] plot[domain=-5:5] (\x,{0.3 * \x + 2.1});
+            \draw[color=Lime, very thick] plot[domain=-5:5] (\x,{-0.2 * \x + 2.8});
+            \node[anchor=south west] at (0, 2.8) {\brilliance{best}};
+        \end{centikz}
+    }
+
+    \only<3> {
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+
+            \draw[color=Red, very thick] plot[domain=-5:1.4] (\x,{0.3 * \x + 2.1});
+            \draw[color=DarkSeaGreen, very thick] plot[domain=1.4:5] (\x,{0.3 * \x + 2.1});
+            \node[anchor=south] at (-2.5, 1.45) {\brilliance{incorrect}};
+            \node[anchor=south] at (3.2, 3.16) {\brilliance{good}};
+
+            \draw[color=Lime, very thick] plot[domain=-5:5] (\x,{-0.2 * \x + 2.8});
+            \node[anchor=south west] at (0, 2.8) {\brilliance{best}};
+        \end{centikz}
+    }
+\end{frame}
+
+\begin{frame}{\ctitle{插入直線}}
+    一條直線在中點輸掉之後不能直接扔掉，因為他還沒輸光，區間內某些 $x$ 的範圍可能還需要他
+
+    在中點輸掉的話，一定也會在左右其中一邊輸光 \\
+    只有其中一邊可能還會需要用到這條直線，遞迴把他交給線段樹上那半邊的子樹處置，另外半邊已經不需要他了
+
+    到葉子還輸的話那這條線徹底不會被任何人需要
+\end{frame}
+
+\begin{frame}{\ctitle{插入直線}}
+    \only<1> {
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+            \draw[color=black, very thick] plot[domain=-5:5] (\x,{0.3 * \x + 2.8});
+            \draw[color=black, very thick] plot[domain=-5:5] (\x,{-0.2 * \x + 2.1});
+        \end{centikz}
+    }
+
+    \only<2> {
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+            \draw[color=DarkSeaGreen, very thick] plot[domain=-5:0] (\x,{-0.2 * \x + 2.1});
+            \draw[color=Lime, very thick] plot[domain=-5:5] (\x,{0.3 * \x + 2.8});
+            \node[anchor=south west] at (0, 3) {\brilliance{best}};
+            \node[anchor=south] at (-2.5, 2.7) {\brilliance{forced}};
+        \end{centikz}
+    }
+
+    \only<3> {
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+            \draw[color=black, very thick] plot[domain=-5:5] (\x,{0.3 * \x + 2.1});
+            \draw[color=black, very thick] plot[domain=-5:5] (\x,{-0.2 * \x + 2.8});
+        \end{centikz}
+    }
+
+    \only<4> {
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+            \draw[color=DarkSeaGreen, very thick] plot[domain=0:5] (\x,{0.3 * \x + 2.1});
+            \draw[color=Lime, very thick] plot[domain=-5:5] (\x,{-0.2 * \x + 2.8});
+            \node[anchor=south west] at (0, 2.8) {\brilliance{best}};
+            \node[anchor=south] at (2.5, 2.95) {\brilliance{forced}};
+        \end{centikz}
+    }
+\end{frame}
+
+\begin{frame}{\ctitle{插入直線}}
+    從根節點出發，到葉節點為止：
+
+    \begin{itemize}
+        \item 代中點 $x$ 座標比較兩條直線，贏家留在節點上
+        \item 比較兩條直線的斜率
+        \begin{itemize}
+            \item 如果贏家的斜率比較\strong{大}，輸家往\strong{左}子樹遞迴插入
+            \item 如果贏家的斜率比較\strong{小}，輸家往\strong{右}子樹遞迴插入
+        \end{itemize}
+    \end{itemize}
+
+    一直往子樹丟包直線\\
+    時間複雜度 $O(\text{線段樹高}) = O(\log N)$
+\end{frame}
+
+\begin{frame}{\ctitle{單點查詢}}
+    直線被扔到隔壁節點，代表這個範圍的 $x$ 全都用不到這條直線 \\
+    一個 $x$ 可能用到的直線，都存在他的祖先們身上
+
+    \begin{itemize}
+        \item 找到代表這個 $x$ 值的葉子
+        \item 檢查所有祖先存的直線，每個都代一次，回答最大的 $y$
+    \end{itemize}
+
+    時間複雜度 $O(\text{線段樹高}) = O(\log N)$
+\end{frame}
+
+\begin{frame}[fragile]{\ctitle{實做}}
+    包裝直線作為函數使用
+    
+    \begin{minted}{cpp}
+        struct Line {
+            int a, b;  // y = ax + b
+            Line(int _a = 0, int _b = 0): a(_a), b(_b) {}
+            int operator()(int x) { return a * x + b; }
+        };
+    \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{\ctitle{實做}}
+    插入直線
+
+    \begin{itemize}
+        \item 代中點 $x$ 座標比較兩條直線，贏家留在節點上
+        \item 比較兩條直線的斜率
+        \item 遞迴插入
+    \end{itemize}
+    
+    \begin{minted}{cpp}
+        void insert(int id, int l, int r, Line ln) {
+            int m = (l + r) / 2;
+            if(lns[id](m) < ln(m)) swap(lns[id], ln);
+            if(l == r) return;
+            if(lns[id].a > ln.a) insert(L(id), l, m, ln);
+            else insert(R(id), m + 1, r, ln);
+        }
+    \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{\ctitle{實做}}
+    單點查詢
+
+    \begin{itemize}
+        \item 找到代表這個 $x$ 值的葉子
+        \item 檢查所有祖先存的直線，每個都代一次，回答最大的 $y$
+    \end{itemize}
+    
+    \begin{minted}{cpp}
+        int qry(int id, int l, int r, int x) {
+            int m = (l + r) / 2;
+            int res = lns[id](x);
+            if(l == r) return res;
+            if(x <= m) res = max(res, qry(L(id), l, m, x));
+            else res = max(res, qry(R(id), m + 1, r, x));
+            return res;
+        }
+    \end{minted}
+\end{frame}
+
+\begin{frame}{\ctitle{座標壓縮}}
+    \begin{problem}[Line Add Get Min，Library Checker]
+        你有 $N$ 條直線 $y = a_i x + b_i$。請你處理 $Q$ 個詢問：
+
+        \begin{itemize}
+            \item 加入一條直線 $y = ax + b$
+            \item 詢問 $x = p$ 處最小的 $y$ 值
+        \end{itemize}
+
+        \begin{itemize}
+            \item $1 \le N, Q \le 2 \times 10^5$
+            \item $|a_i|, |p| \le 10^9$ \only<2>{\yum{？？？！！}}
+            \item $|b_i| \le 10^{18}$
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\ctitle{座標壓縮}}
+    剛剛對 $x$ 的值域 $1, 2, \dots, 10^5$ 開線段樹
+
+    現在事先收集會被詢問到的 $x$ 座標 \\
+    對會被問到的 $x$ 開線段樹
+
+    詢問是浮點數的時候也可以
+\end{frame}
+
+\begin{frame}{\ctitle{座標壓縮}}
+    如果事先不知道詢問位置呢？
+
+    \only<2> {
+        動態開點，用不到的節點不要理他
+    }
+\end{frame}
+
+\begin{frame}{\ctitle{插入線段}}
+    如果插入的不是直線，而是有左右範圍限制的線段呢？
+
+    \todo 插圖
+\end{frame}
+
+\begin{frame}{\ctitle{插入線段}}
+    一般線段樹是怎麼做區間修改的？
+    \only<2-> {
+        \\找 $O(\log N)$ 個節點覆蓋詢問的區間，修改那些節點
+    }
+
+    \only<3-> {
+        找 $O(\log N)$ 個節點覆蓋線段範圍，對那些節點插入直線
+    }
+
+    \only<4-> {
+        時間複雜度：插入一次 $O(\log N)$，總共 $O(\log^2N)$
+    }
+\end{frame}
+
+\begin{frame}{\ctitle{應用}}
+    \begin{itemize}
+        \item 斜率優化 \emoji{white_check_mark}
+        \item<2> 四邊形優化 \emoji{white_check_mark}
+    \end{itemize}
+
+    \only<2> {
+        不只是直線，有\strong{優超性}的函數都可以
+    }
+\end{frame}
+
+% todo: li-chao segtree extensions
