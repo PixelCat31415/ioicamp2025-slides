@@ -249,6 +249,40 @@
 \end{frame}
 
 \begin{frame}{\ectitle}
+    \begin{figure}[h!]
+        \begin{center}
+            \begin{tikzpicture}[
+                seg/.style={draw, very thick, rectangle, minimum width=0.5cm, anchor=north west},
+                arrow/.style={->, very thick, >={Stealth}, blue},
+                bluearr/.style={->, very thick, >={Stealth}, red},
+                ndblue/.style={blue, fill={blue!20!white}},
+                ndcyan/.style={blue, fill={cyan!50!white}},
+                ndwhite/.style={blue, fill={white}},
+                ndgray/.style={gray, fill={white}},
+            ]
+                \node[seg, ndgray, minimum height=5.4cm] (nd-0) at (0, -0.7) {};\node[seg, ndgray, minimum height=2.6cm] (nd-1) at (1, -0.7) {};\node[seg, ndgray, minimum height=1.2cm] (nd-3) at (2, -0.7) {};\node[seg, ndgray, minimum height=0.5cm] (nd-7) at (3, -0.7) {1};\node[seg, ndblue, minimum height=0.5cm] (nd-8) at (3, -1.4) {2};\node[seg, ndwhite, minimum height=1.2cm] (nd-4) at (2, -2.1) {};\node[seg, ndblue, minimum height=0.5cm] (nd-9) at (3, -2.1) {3};\node[seg, ndblue, minimum height=0.5cm] (nd-10) at (3, -2.8) {4};\node[seg, ndwhite, minimum height=2.6cm] (nd-2) at (1, -3.5) {};\node[seg, ndwhite, minimum height=1.2cm] (nd-5) at (2, -3.5) {};\node[seg, ndblue, minimum height=0.5cm] (nd-11) at (3, -3.5) {5};\node[seg, ndblue, minimum height=0.5cm] (nd-12) at (3, -4.2) {6};\node[seg, ndwhite, minimum height=1.2cm] (nd-6) at (2, -4.9) {};\node[seg, ndblue, minimum height=0.5cm] (nd-13) at (3, -4.9) {7};\node[seg, ndblue, minimum height=0.5cm] (nd-14) at (3, -5.6) {8};
+                \draw[arrow, gray] (nd-7) -- (nd-3);\draw[arrow, gray] (nd-8) -- (nd-3);\draw[arrow, blue] (nd-9) -- (nd-4);\draw[arrow, blue] (nd-10) -- (nd-4);\draw[arrow, gray] (nd-3) -- (nd-1);\draw[arrow, gray] (nd-4) -- (nd-1);\draw[arrow, blue] (nd-11) -- (nd-5);\draw[arrow, blue] (nd-12) -- (nd-5);\draw[arrow, blue] (nd-13) -- (nd-6);\draw[arrow, blue] (nd-14) -- (nd-6);\draw[arrow, blue] (nd-5) -- (nd-2);\draw[arrow, blue] (nd-6) -- (nd-2);\draw[arrow, gray] (nd-1) -- (nd-0);\draw[arrow, gray] (nd-2) -- (nd-0);
+                
+                \node[anchor=center, draw, very thick, red, circle, fill=red!20!white] at (-3, -3.4) (nd-qry-1) {};
+                \draw[arrow, red] (nd-2) -- (nd-qry-1);
+                \draw[arrow, red] (nd-4) -- (nd-qry-1);
+                \node[left of=nd-qry-1] {$[3, 8]$};
+                
+                \node[anchor=center, draw, very thick, red, circle, fill=red!20!white] at (-3, -1.4) (nd-qry-2) {};
+                \draw[arrow, red] (nd-4) -- (nd-qry-2);
+                \draw[arrow, red] (nd-8) -- (nd-qry-2);
+                \node[left of=nd-qry-2] {$[2, 4]$};
+                
+                \node[anchor=center, draw, very thick, red, circle, fill=red!20!white] at (-3, -5.4) (nd-qry-3) {};
+                \draw[arrow, red] (nd-13) -- (nd-qry-3);
+                \node[left of=nd-qry-3] {$[7, 7]$};
+                
+            \end{tikzpicture}
+        \end{center}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{\ectitle}
     預先建兩棵線段樹，一棵從根往葉子連邊，一棵從葉子往根連邊 \\
     每次詢問根據方向在對應的樹上連 $O(\log N)$ 條邊，就可以建出一樣的圖（在最短路的意義上一樣）
 
