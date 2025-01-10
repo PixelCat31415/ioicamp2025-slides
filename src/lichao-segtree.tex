@@ -322,9 +322,43 @@
 \end{frame}
 
 \begin{frame}{\ctitle{插入線段}}
-    如果插入的不是直線，而是有左右範圍限制的線段呢？
+    \only<1> {
+        如果插入的不是直線，而是有左右範圍限制的線段呢？
 
-    \todo 插圖
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+            \draw[color=black, very thick] plot[domain=-5:5] (\x,{-0.2 * \x + 2.1});
+            \draw[color=black, very thick] plot[domain=-3:2] (\x,{0.3 * \x + 2.8});
+        \end{centikz}
+    }
+
+    \only<2> {
+        （往左右子樹都丟包線段一定是不行的）
+
+        \begin{centikz}
+            \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
+            \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
+            \draw[color=gray, dashed] ( 5, 0) -- ( 5, 5);
+            \node[color=gray, anchor=north] at (-5, -0.2) {$L$};
+            \node[color=gray, anchor=north] at ( 0, -0.2) {$M = \frac{L + R}{2}$};
+            \node[color=gray, anchor=north] at ( 5, -0.2) {$R$};
+            
+            \draw[color=DarkSeaGreen, very thick] plot[domain=-5:-1.4] (\x,{-0.2 * \x + 2.1});
+            \draw[color=Red, very thick] plot[domain=-1.4:2] (\x,{-0.2 * \x + 2.1});
+            \draw[color=DarkSeaGreen, very thick] plot[domain=2:5] (\x,{-0.2 * \x + 2.1});
+            \node[anchor=south] at (-3.2, 2.84) {\brilliance{good}};
+            \node[anchor=south] at (1, 2) {\brilliance{incorrect}};
+            \node[anchor=south] at (3.5, 1.5) {\brilliance{good}};
+            
+            \draw[color=Lime, very thick] plot[domain=-3:2] (\x,{0.3 * \x + 2.8});
+            \node[anchor=south west] at (0, 3) {\brilliance{best}};
+        \end{centikz}
+    }
 \end{frame}
 
 \begin{frame}{\ctitle{插入線段}}
