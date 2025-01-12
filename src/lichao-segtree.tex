@@ -298,7 +298,7 @@
 
         \begin{itemize}
             \item $1 \le N, Q \le 2 \times 10^5$
-            \item $|a_i|, |p| \le 10^9$ \only<2>{\yum{？？？！！}}
+            \item \yum{$|a_i|, |p| \le 10^9$}
             \item $|b_i| \le 10^{18}$
         \end{itemize}
     \end{problem}
@@ -322,9 +322,26 @@
 \end{frame}
 
 \begin{frame}{\ctitle{插入線段}}
-    \only<1> {
-        如果插入的不是直線，而是有左右範圍限制的線段呢？
+    如果插入的不是直線，而是有左右範圍限制的線段呢？
+    \begin{problem}[Segment Add Get Min，Library Checker]
+        你有 $N$ 段\yum{線段} $y = a_i x + b_i$（$x \in [l_i, r_i)$）。請你處理 $Q$ 個詢問：
 
+        \begin{itemize}
+            \item 加入一段\yum{線段} $y = ax + b$（$x \in [l, r)$）
+            \item 詢問 $x = p$ 處最小的 $y$ 值
+        \end{itemize}
+
+        \begin{itemize}
+            \item $1 \le N, Q \le 2 \times 10^5$
+            \item $-10^9 \leq l_i < r_i \leq 10^9$
+            \item $|a_i|, |p| \le 10^9$
+            \item $|b_i| \le 10^{18}$
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\ctitle{插入線段}}
+    \only<1> {
         \begin{centikz}
             \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
             \draw[color=gray, dashed] ( 0, 0) -- ( 0, 5);
