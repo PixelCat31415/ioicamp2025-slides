@@ -1,0 +1,443 @@
+\section{線段樹的暴力與懶人標記}
+
+\begin{frame}{\ebtitle}
+    Change my mind：均攤分析就是玄學
+\end{frame}
+
+\begin{frame}{\btitle{區間開根號}}
+    \begin{problem}[帶修改區間和，Zerojudge c652]
+        給你一段 $N$ 個正整數的序列 $a_1,\cdots,a_N$，請你執行 $Q$ 筆操作。
+
+        \begin{itemize}
+            \item $0\;l\;r$：代表詢問 $[l,r]$ 區間的和。
+            \item $1\;l\;r$：代表將 $[l,r]$ 區間的每個數字 $a_i$ 改成 $\lfloor{\sqrt{a_i}}\rfloor$。
+        \end{itemize}
+
+        \begin{itemize}
+            \item $1\le N,Q\le 3\times 10^5$。
+            \item $1\le a_i\le 10^{12}$。
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\btitle{區間開根號}}
+    如果想在線段樹維護區間和 \\
+    區間開根號的時候區間和會如何變化？
+
+    \only<2> {
+        我也不知道 \emoji{sob}
+
+        區間開根號沒有\strong{可預測性}，不能打懶人標記
+    }
+\end{frame}
+
+\begin{frame}{\btitle{區間開根號}}
+    觀察：一個數字被開 $\log \log C$ 次根號之後就不會再動了，永遠都會是 $1$
+
+    \only<2> {
+        \begin{itemize}
+            \item 如果區間內有人不是 $1$，暴力往下修改
+            \item 如果區間內所有人都是 $1$，什麼事都不需要做
+        \end{itemize}
+
+        一個數字只會被暴力改 $\log \log C$ 次，每次 $O(\log N)$ 時間 \\
+        總時間複雜度 $O(Q \log N + N \log N \log\log C)$
+    }
+\end{frame}
+
+\begin{frame}{\btitle{區間開根號．其二}}
+    \begin{problem}[帶修改區間和 Ex.，波路自編題]
+        給你一段 $N$ 個正整數的序列 $a_1,\cdots,a_N$，請你執行 $Q$ 筆操作。
+
+        \begin{itemize}
+            \item \yum{$1\;l\;r\;c$：代表將 $[l,r]$ 區間的每個數字 $a_i$ 加上 $c$。}
+            \item $2\;l\;r$：代表將 $[l,r]$ 區間的每個數字 $a_i$ 改成 $\lfloor{\sqrt{a_i}}\rfloor$。
+            \item $3\;l\;r$：代表詢問 $[l,r]$ 區間的和。
+        \end{itemize}
+
+        \begin{itemize}
+            \item $1\le N,Q\le 10^5$。
+            \item $0\le a_i,c\le 10^9$。
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\btitle{區間開根號．其二}}
+    開完根號再加值，一個數字只會被暴力改......$O(Q)$ 次（？？？）
+
+    剛剛的作法壞掉了
+\end{frame}
+
+\begin{frame}{\btitle{區間開根號．其二}}
+    \only<1> {
+        觀察：區間全距被開幾次根號之後就幾乎不動了
+    }
+
+    \only<2> {
+        觀察：區間全距被開 \yum{$O(\log\log C)$} 次根號之後就會一直是 \yum{$0$ 或 $1$}
+
+        對全距是 $1$ 的區間開根號可以打懶人標記嗎？\\
+        可以，多紀錄最小值和最小值個數就知道區間裡有哪些數字
+
+        線段樹修改時，只要全距還不是 $1$ 就暴力往下修改
+    }
+\end{frame}
+
+\begin{frame}{\btitle{區間開根號．其二}}
+    一開始，每個節點的全距都是 $O(C)$，暴力往下次數 $O(N \log\log C)$
+
+    每次區間加值讓 $O(\log N)$ 個節點的全距增加 $O(C)$，暴力往下次數增加 $O(\log N \log\log C)$
+
+    總時間複雜度 $O(Q \log N + N \log\log C + Q \log N \log\log C)$
+\end{frame}
+
+\begin{frame}[fragile]{\ebtitle}
+    \begin{minted}[linenos=false]{cpp}
+        void modify(int node, int l, int r, int ql, int qr) {
+            if(l >= ql && r <= qr) {
+                give_tag(node); return;
+            }
+            push(node);
+            int m = (l + r) / 2;
+            if(ql <= m) modify(L(node), l, m, ql, qr);
+            if(qr > m)  modify(R(node), m + 1, r, ql, qr);
+            pull(node);
+        }
+    \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{\ebtitle}
+    \begin{minted}[linenos=false]{cpp}
+        void modify(int node, int l, int r, int ql, int qr) {
+            if(全距 <= 1) {
+                give_tag(node); return;
+            }
+            push(node);
+            int m = (l + r) / 2;
+            if(ql <= m) modify(L(node), l, m, ql, qr);
+            if(qr > m)  modify(R(node), m + 1, r, ql, qr);
+            pull(node);
+        }
+    \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{\ebtitle}
+    \begin{minted}[linenos=false]{cpp}
+        void modify(int node, int l, int r, int ql, int qr) {
+            if(tag_condition(node)) {
+                give_tag(node); return;
+            }
+            push(node);
+            int m = (l + r) / 2;
+            if(ql <= m) modify(L(node), l, m, ql, qr);
+            if(qr > m)  modify(R(node), m + 1, r, ql, qr);
+            pull(node);
+        }
+    \end{minted}
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    也許......\mintinline{cpp}|tag_condition| 還可以是......？
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats}}
+    \begin{problem}[Gorgeous Sequence，HDU 5306]
+        $T$ 筆測資，每筆測資給你一段 $N$ 個整數的序列 $a_1,\cdots,a_N$，請你執行 $Q$ 筆操作。
+
+        \begin{itemize}
+            \item $0\;l\;r\;t$：代表將 $[l,r]$ 區間的每個數字 $a_i$ 改成 $\min(a_i,t)$。
+            \item $1\;l\;r$：代表詢問 $[l,r]$ 區間的最大值。
+            \item $2\;l\;r$：代表詢問 $[l,r]$ 區間的和。
+        \end{itemize}
+        
+        \begin{itemize}
+            \item $1\le T\le 100$。
+            \item $1\le \sum N,\sum Q\le 10^6$。
+            \item $0\le a_i,t< 2^{31}$。
+        \end{itemize}
+    \end{problem}
+
+    區間取 min 對區間和同樣不能預測，不能直接打懶人標記
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats}}
+    每個節點維護\yum{區間嚴格次大值}\only<2>{ \brilliance{brilliant} }和最大值個數
+
+    \only<2-> {
+        \begin{itemize}
+            \item 如果 $t \leq$ 次大值，暴力往下修改
+            \item 如果 $t >$ 次大值，等同於把所有最大值都改成 $t$，可以打懶人標記
+        \end{itemize}
+
+        時間複雜度：$O((N + Q) \log N)$\only<3>{？？？\\}
+        \only<3>{憑什麼這麼快？}
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats}}
+    考慮每個節點的數字種類數 \\
+    每次往下暴力修改，額外花 $O(1)$ 時間，區間內的數字一定會少至少一種
+
+    比一般線段樹多付出的時間 \\
+    最多是每個節點暴力往下修改的總次數 \\
+    也就是 $O(N \log N)$
+
+    \only<2> {
+        總時間複雜度 $O((N + Q) \log N)$
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其二}}
+    \begin{problem}
+        給你一段 $N$ 個整數的序列 $a_1,\cdots,a_N$，請你執行 $Q$ 筆操作。
+
+        \begin{itemize}
+            \item $0\;l\;r\;t$：代表將 $[l,r]$ 區間的每個數字 $a_i$ 改成 $\min(a_i,t)$。
+            \item \yum{$1\;l\;r\;c$：代表將 $[l,r]$ 區間的每個數字加上 $c$。}
+            \item $2\;l\;r$：代表詢問 $[l,r]$ 區間的最大值。
+            \item $3\;l\;r$：代表詢問 $[l,r]$ 區間的和。
+        \end{itemize}
+
+        \begin{itemize}
+            \item $1\le N,Q\le 3\times 10^5$。
+            \item $-10^6\le c,a_i,t\le 10^6$。
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其二}}
+    嘗試跟前一題用一樣的作法
+
+    區間加值後，節點的數字種類數會變多......\\
+    \only<2->{$O(\text{區間長度})$}
+
+    \only<2->{沿用相同的證明想法，暴力修改的次數最多是......\\}
+    \only<3->{$O(NQ)$？}
+
+    \only<4>{
+        換一種證明思路，可以證明總複雜度是 $O((N + Q) \log^2 N)$ 的
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其二}}
+    \todo 插圖
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其二}}
+    「$t \leq$ 區間次小值時，往下暴力」\\
+    實際上等同往下 DFS 移除子樹內 $\geq t$ 的標記
+
+    \only<2> {
+        移除一個標記要花 $O(\text{樹高}) = O(\log N)$ 時間
+
+        一開始最多有 $N$ 個標記 \\
+        什麼時候標記會變多？
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其二}}
+    在線段樹上區間操作的時候，可以把節點分成四種
+
+    \begin{enumerate}[A]
+        \item 被操作區間完全包含
+        \item 跟操作區間部份重疊
+        \item 跟操作區間不重疊，但是 B 的子節點
+        \item 跟操作區間不重疊的其他節點
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其二}}
+    \todo 插圖
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其二}}
+    \only<1> {
+        標記變多例：A 類節點獲得標記（被操作區間完全包含）
+        % 1, 2, 2, 2 --{[4, 4] chmin 1}-> 1, 2, 2, 1
+    }
+
+    \only<2> {
+        標記變多例：B 類節點獲得標記（跟操作區間部份重疊）
+        % 1, 2, 2, 2 --{[2, 3] chmin 1}-> 1, 1, 1, 2
+    }
+
+    \only<3> {
+        標記變多例：C 類節點獲得標記（跟操作區間不重疊，但是 B 的子節點）
+        % 1, 2, 2, 2 --{[2, 3] add 1}-> 1, 3, 3, 2
+    }
+
+    \only<4> {
+        標記變多例：D 類節點獲得標記（跟操作區間不重疊的其他節點）
+        
+        並不會，因為節點和父節點內的最大值都沒有變
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其二}}
+    場合 1：區間 chmin
+
+    \begin{enumerate}[A]
+        \item 被操作區間完全包含
+        \begin{itemize}
+            \item 減少若干個標記
+            \item 增加至多 $O(\log N)$ 個標記
+        \end{itemize}
+        \item 跟操作區間部份重疊
+        \begin{itemize}
+            \item 至多 $O(\log N)$ 個節點
+        \end{itemize}
+        \item 跟操作區間不重疊，但是 B 的子節點
+        \begin{itemize}
+            \item 至多 $O(\log N)$ 個節點
+        \end{itemize}
+        \item 跟操作區間不重疊的其他節點
+        \begin{itemize}
+            \item 標記維持原狀
+        \end{itemize}
+    \end{enumerate}
+
+    標記最多增加 $O(\log N)$ 個
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其二}}
+    場合 2：區間加值
+
+    \begin{enumerate}[A]
+        \item 被操作區間完全包含
+        \begin{itemize}
+            \item 標記維持原狀
+        \end{itemize}
+        \item 跟操作區間部份重疊
+        \begin{itemize}
+            \item 至多 $O(\log N)$ 個節點
+        \end{itemize}
+        \item 跟操作區間不重疊，但是 B 的子節點
+        \begin{itemize}
+            \item 至多 $O(\log N)$ 個節點
+        \end{itemize}
+        \item 跟操作區間不重疊的其他節點
+        \begin{itemize}
+            \item 標記維持原狀
+        \end{itemize}
+    \end{enumerate}
+
+    標記最多增加 $O(\log N)$ 個
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其二}}
+    \begin{itemize}
+        \item 「暴力往下」實際上是在 DFS 刪除標記
+        \item 「暴力往下」刪除一個標記花 $O(\log N)$ 時間
+        \item 總共只有 $O(N + Q \log N)$ 個標記可以刪
+    \end{itemize}
+
+    所以，吉如一線段樹和一般線段樹相比，額外花的時間頂多只有 $O((N + Q) \log^2 N)$
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其二}}
+    吉如一本人給的證明和網路上流傳的證明都說可以 $O((N + Q) \log^2 N)$
+
+    實際上執行飛快，被懷疑其實只有一個 $\log$
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其三}}
+    \begin{problem}[Range Chmin Chmax Add Range Sum，Library Checker]
+        給你一段 $N$ 個整數的序列 $a_1,\cdots,a_N$，請你執行 $Q$ 筆操作。
+
+        \begin{itemize}
+            \item $0\;l\;r\;t$：代表將 $[l,r]$ 區間的每個數字 $a_i$ 改成 $\min(a_i,t)$。
+            \item $1\;l\;r\;t$：代表將 $[l,r]$ 區間的每個數字 $a_i$ 改成 $\max(a_i,t)$。
+            \item $2\;l\;r\;c$：代表將 $[l,r]$ 區間的每個數字加上 $c$。
+            \item $3\;l\;r$：代表詢問 $[l,r]$ 區間的和。
+        \end{itemize}
+        
+        \begin{itemize}
+            \item $1\le N,Q\le 3\times 10^5$。
+            \item $-10^6\le c,a_i,t\le 10^6$。
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\btitle{Segment Tree Beats．其三}}
+    加上了區間取 max 操作
+
+    沿用同樣的作法同樣的證明，維護
+
+    \begin{itemize}
+        \item 區間最大、最小值
+        \item 區間最大、最小值個數
+        \item 區間\strong{嚴格}次大、次小值
+    \end{itemize}
+
+    時間複雜度 $O((N + Q) \log^2 N)$
+\end{frame}
+
+\begin{frame}{\btitle{Bear and Bad Powers of 42}}
+    \begin{problem}[Bear and Bad Powers of 42，Codeforces 679E]
+        給你一段 $N$ 個正整數的序列 $a_1,\cdots,a_N$，一個數字是好的若且唯若他不是 $42$ 的冪次，請你執行 $Q$ 筆操作。
+
+        \begin{itemize}
+            \item $1\;i$：輸出 $a_i$。
+            \item $2\;l\;r\;x$：代表將 $[l,r]$ 區間的每個數字 $a_i$ 改成 $x$，保證 $x$ 是好的。
+            \item $3\;l\;r\;c$：代表將 $[l,r]$ 區間的每個數字加上 $c$，並重複該操作直到 $[l,r]$ 區間的每個數字都是好的為止。
+        \end{itemize}
+
+        注意到每次操作後，所有數字都會是好的。
+
+        \begin{itemize}
+            \item $1\le N,Q\le 10^5$。
+            \item $2\le a_i,x\le 10^9$。
+            \item $1\le c\le 10^9$。
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\btitle{Bear and Bad Powers of 42}}
+    如果沒有區間改值，
+    
+    \begin{itemize}
+        \item 一個數字頂多被加到 $NQ = 10^{14}$ 左右，而 $10^{14}$ 以內的 $42$ 冪次只有 $\log_{42} 10^{14}$ 不到十個
+        \item 維護每個數字離下一個 $42$ 冪次還有多遠
+        \item 時間複雜度 $O((N + Q) \log N \log_{42} NQ)$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\btitle{Bear and Bad Powers of 42}}
+    如果加上區間改值，
+
+    \only<1> {
+        \begin{itemize}
+            \item 不能暴力到底？暴力到什麼時候為止？
+        \end{itemize}
+    }
+    
+    \only<2-> {
+        \begin{itemize}
+            \item 暴力到\strong{區間內數字都一樣}為止
+            \item 參考吉如一線段樹的證明，需要暴力很多次的節點不會增加很多
+            \item 時間複雜度 $O((N + Q) \log N \log_{42} NQ)$\only<3>{\yum{？？？}}
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{\btitle{Bear and Bad Powers of 42}}
+    題外話：官解
+
+    \begin{itemize}
+        \item 被區間改值的那段數字視為「一坨」
+        \item 區間操作的時候可能把一坨切成兩坨
+        \item 一整坨可以一起加值
+        \item 時間複雜度 $O((N + Q) \log N \log_{42} NQ)$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    Change my mind：均攤分析就是玄學
+\end{frame}
+
+\begin{frame}{\btitle{總結}}
+    這不是一堂資料結構課，這是一堂\strong{均攤分析}課 \\
+    資料結構不是重點，重點是均攤的思路、直覺、證明手法
+
+    也許你此生沒機會真的砸吉如一線段樹，但均攤分析值得你學習
+\end{frame}
