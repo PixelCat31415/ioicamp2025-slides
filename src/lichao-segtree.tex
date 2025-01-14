@@ -434,7 +434,17 @@
 \begin{frame}{\btitle{擴充版本（一）}}
     前面的作法照做？加直線的標記可能會跑到以前插入的直線底下
 
-    \todo 插圖
+    \begin{centikz}[
+        seg/.style={draw, very thick, rectangle, minimum height=0.5cm, anchor=north west},
+        ndblue/.style={blue, fill={blue!20!white}},
+        ndred/.style={red, fill={red!20!white}},
+        ndwhite/.style={black, fill={white}},
+    ]
+        \node[seg, ndblue, minimum width=9.4cm] (nd-0) at (1.2, -0) {\color{blue} $y = 1$};\node[seg, ndwhite, minimum width=4.6cm] (nd-1) at (1.2, -1) {};\node[seg, ndwhite, minimum width=2.2cm] (nd-3) at (1.2, -2) {};\node[seg, ndwhite, minimum width=1.0cm] (nd-7) at (1.2, -3) {};\node[seg, ndred, minimum width=1.0cm] (nd-8) at (2.4, -3) {\color{red} $-\infty$};\node[seg, ndred, minimum width=2.2cm] (nd-4) at (3.6, -2) {\color{red} $-\infty$};\node[seg, ndwhite, minimum width=1.0cm] (nd-9) at (3.6, -3) {};\node[seg, ndwhite, minimum width=1.0cm] (nd-10) at (4.8, -3) {};\node[seg, ndred, minimum width=4.6cm] (nd-2) at (6.0, -1) {\color{red} $-\infty$};\node[seg, ndwhite, minimum width=2.2cm] (nd-5) at (6.0, -2) {};\node[seg, ndwhite, minimum width=1.0cm] (nd-11) at (6.0, -3) {};\node[seg, ndwhite, minimum width=1.0cm] (nd-12) at (7.2, -3) {};\node[seg, ndwhite, minimum width=2.2cm] (nd-6) at (8.4, -2) {};\node[seg, ndwhite, minimum width=1.0cm] (nd-13) at (8.4, -3) {};\node[seg, ndwhite, minimum width=1.0cm] (nd-14) at (9.6, -3) {};\draw[black, thick] (nd-7) -- (nd-3);\draw[black, thick] (nd-8) -- (nd-3);\draw[black, thick] (nd-9) -- (nd-4);\draw[black, thick] (nd-10) -- (nd-4);\draw[black, thick] (nd-3) -- (nd-1);\draw[black, thick] (nd-4) -- (nd-1);\draw[black, thick] (nd-11) -- (nd-5);\draw[black, thick] (nd-12) -- (nd-5);\draw[black, thick] (nd-13) -- (nd-6);\draw[black, thick] (nd-14) -- (nd-6);\draw[black, thick] (nd-5) -- (nd-2);\draw[black, thick] (nd-6) -- (nd-2);\draw[black, thick] (nd-1) -- (nd-0);\draw[black, thick] (nd-2) -- (nd-0);
+    \end{centikz}
+    \begin{center}
+        \emoji{up arrow} 講義範例
+    \end{center}
 \end{frame}
 
 \begin{frame}{\btitle{擴充版本（一）}}
