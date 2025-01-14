@@ -1,0 +1,176 @@
+\newcommand{\InlineCode}[1]{\mintinline{cpp}|#1|}
+
+\section{時間線段樹}
+
+\iffalse
+
+\begin{frame}{\ebtitle}
+    如果要一句話解釋時間線段樹：\\
+    「時間線段樹是一種用 stack 模擬 set 的辦法」
+
+    \only<2> {
+        （沒有解釋到半點 \emoji{pensive}）
+    }
+\end{frame}
+
+\fi
+
+\begin{frame}{\ebtitle}
+    \only<1,3> {
+        時間線段樹想解決「操作有時效性」的問題
+        
+        你想要在未來的某個時間取消這次操作 \\
+        但資料結構只有支援你做新的操作、和取消\yum{上一次}操作
+    }
+
+    \only<2> {
+        例如：
+        \begin{itemize}
+            \item 你有一個 stack，想要加新元素、和移除任意久以前加進去的東西。但是 stack 只支援移除\yum{上一次}加進去的元素
+            \item 你有一個併查集，想要加新的邊、和移除任意一條加過的邊。但是併查集只支援刪除\yum{上一次}加進去的邊
+        \end{itemize}
+    }
+
+    \only<3> {
+        如果\yum{操作沒有順序性}的話\\
+        可以以複雜度乘 $O(\log Q)$ 的代價，使用時間線段樹支援 $Q$ 次這類操作
+    }
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    線段樹的實做框架（講義第 79 頁）
+
+    \begin{itemize}
+        \item 先收集每個操作的有效時間段，加到時間線段樹裡
+        \item 遍歷時間線段樹重現所有操作
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    \begin{problem}[【Gate】這個笑容由我來守護 - EXTREME，TIOJ 1903]
+        給定一張 $N$ 個點的無向圖，一開始圖上有 $M$ 條邊。
+
+        現在有 $Q$ 個操作，每個操作會是以下兩種中的一種：
+        
+        \begin{itemize}
+            \item 增加一條連接著編號 $A_i$ 與編號 $B_i$ 的邊。
+            \item 刪除一條連接著編號 $A_i$ 與編號 $B_i$ 的邊（保證這條邊是存在的）。
+        \end{itemize}
+
+        每次操作完後請輸出當前的連通塊數量。
+
+        \begin{itemize}
+            \item $1\le N\le 5\times 10^5$。
+            \item $Q\le 5\times 10^5$。
+        \end{itemize}
+    \end{problem}
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    \begin{itemize}
+        \item 時間線段樹對「操作時間」開一棵線段樹
+        \item 每個節點存一些操作
+        \item 事先收集所有操作，在線段樹上的一些節點存起來
+        \item \InlineCode{traversal} 遍歷線段樹，重現所有操作
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    如果開始到結束經歷 $Q$ 次加邊或刪邊 \\
+    對這 $Q$ 個時間點開線段樹 \\
+    每個葉子的所有祖先存的所有邊，會是這個時間點應該要活著的所有邊
+\end{frame}
+
+\begin{frame}[fragile]{\ebtitle}
+    加入操作：像區間修改一樣，把要加的邊紀錄在被修改到的節點上
+    \begin{minted}[linenos=false]{cpp}
+        void insert_event(int idx, int lb, int rb, int ql, int qr, Event e) {
+            if (ql <= lb && rb <= qr) {
+                tr[idx].push_back(e);
+                return;
+            }   
+            int mid = (lb + rb) / 2;
+            if(ql <= mid)
+                insert_event(idx * 2, lb, mid, ql, qr, e);
+            if(qr > mid)
+                insert_event(idx * 2 + 1, mid + 1, rb, ql, qr, e);
+        }
+    \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{\ebtitle}
+    遍歷線段樹：進入節點時把剛剛加的邊加進 DSU，離開節點時移除這些邊
+    \begin{minted}[linenos=false]{cpp}
+        void traversal(int idx, int lb, int rb) {
+            int cnt = 0;
+            for (auto e : tr[idx])
+                if (do_things(e))
+                    cnt++;
+            if (lb == rb) {
+                // 記錄在這個時間點的答案
+            } else {
+                int mid = (lb + rb) / 2;
+                traversal(idx * 2, lb, mid);
+                traversal(idx * 2 + 1, mid + 1, rb); 
+            }
+            while (cnt--) undo();
+        }
+    \end{minted}
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    \todo 插圖
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    \begin{itemize}
+        \item DFS 的時候每個節點在最後剛好把自己加進去的邊拿掉
+        \item 葉子代表一個時間點，每次 DFS 到葉子的時候，DSU 裡面正好有所有應該活著的邊
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    最後一個技術困難：DSU 要怎麼取消上一次操作？
+
+    \begin{itemize}
+        \item 每次 DSU 加邊只會把一個節點接到另一個身上
+        \item 紀錄每次加邊是誰連到誰，undo 的時候還原這兩個節點的狀態
+        \item 啟發式合併？ \emoji{check mark button}
+        \item 路徑壓縮？ \emoji{cross mark}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    Recap
+    
+    \begin{itemize}
+        \item 有一個可以 undo 的併查集
+        \item 收集每一條邊存活的時間，加入時間線段樹
+        \item 遍歷時間線段樹，一邊紀錄答案
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    時間複雜度
+    
+    \begin{itemize}
+        \item 總共出現過 $O(M + Q)$ 條邊
+        \item 每條邊在線段樹上被拆成 $O(\log Q)$ 個操作
+        \item 每個操作要在併查集上 $O(\log N)$ 加邊、$O(1)$ undo
+    \end{itemize}
+
+    總複雜度 $O((M + Q) \log Q \log N)$ \\
+    比只有加邊的啟發式合併併查集多一個 $\log$
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    使用時間線段樹的場合
+    
+    \begin{itemize}
+        \item 操作有時效性
+        \item 操作可以交換
+        \item 可以反悔上一個操作
+    \end{itemize}
+\end{frame}
+
+% \input{src/time-segtree-dnc}

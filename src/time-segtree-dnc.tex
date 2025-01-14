@@ -1,0 +1,75 @@
+\subsection{時間線段樹與分治}
+
+\begin{frame}{\ectitle}
+    線段樹對應某種分治演算法的遞迴樹
+
+    時間線段樹是什麼東西的遞迴樹？
+\end{frame}
+
+\begin{frame}{\ectitle}
+    \begin{problem}[Arctan Loves Stacks，台大演算法設計與分析（ADA）作業]
+        你想用一個 \InlineCode{std::stack}（\InlineCode{push/pop}）來模擬 $N$ 個 \InlineCode{std::set} 操作（\InlineCode{insert/erase}） \\
+
+	    $N$ 的值和所有 set 操作都是一開始就事先知道的，請用總共 $O(N \log N)$ 次 stack 操作來模擬 $N$ 個 set 操作
+    \end{problem}
+\end{frame}
+
+\newcommand{\CR}{\emoji{red circle}}
+\newcommand{\CB}{\emoji{blue circle}}
+\newcommand{\OK}{\emoji{check mark button}}
+\begin{frame}{\ectitle}
+    \begin{multicols}{2}
+        Set 操作：
+        \begin{table}
+            \begin{tabular}{| l p{0.2cm} l |}
+                \hline
+                insert \CR  && $\{\CR\}$ \\
+                insert \CB && $\{\CR, \CB\}$ \\
+                erase \CR   && $\{\CB\}$ \\
+                erase \CB  && $\{\}$ \\
+                \hline
+            \end{tabular}
+        \end{table}
+        \columnbreak
+        \only<1> { \hspace{5cm} }
+        \only<2> {
+            Stack 操作：
+            \begin{table}
+                \begin{tabular}{| l p{0.2cm} l l |}
+                    \hline
+                    push \CR && $\{\CR\}$      & \OK \\
+                    push \CB && $\{\CR, \CB\}$ & \OK \\
+                    pop  \CB && $\{\CR\}$      &     \\
+                    pop  \CR && $\{\}$         &     \\
+                    push \CB && $\{\CB\}$      & \OK \\
+                    pop  \CB && $\{\}$         & \OK \\
+                    \hline
+                \end{tabular}
+            \end{table}
+        }
+    \end{multicols}
+\end{frame}
+
+\begin{frame}{\ectitle}
+    \begin{itemize}
+        \item insert $\CR_1, \CR_2, \CR_3, \CR_4, \CR_5$
+        \item insert $\CB_1, \CB_2, \CB_3, \CB_4, \CB_5$
+    \end{itemize}
+
+    Stack：$\{\CR_1, \CR_2, \CR_3, \CR_4, \CR_5, \CB_1, \CB_2, \CB_3, \CB_4, \CB_5\}$
+
+    \begin{itemize}
+        \item erase $\CR_1, \CR_2, \CR_3, \CR_4, \CR_5$
+    \end{itemize}
+
+    每次都把所有東西拿出來再放回去？
+\end{frame}
+
+\begin{frame}{\ectitle}
+    目標是只用 $O(N \log N)$ 次 stack 操作完成模擬 \\
+    需要根據 set 操作設計合理的操作順序
+\end{frame}
+
+\begin{frame}{\ectitle}
+    % todo
+\end{frame}

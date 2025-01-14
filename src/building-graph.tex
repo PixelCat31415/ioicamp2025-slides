@@ -1,6 +1,6 @@
-\subsection{線段樹優化建圖}
+\section{線段樹優化建圖}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     \begin{problem}[Legacy，Codeforces 786B]
         給定一張 $N$ 個點的有向圖，接下來有 $Q$ 次加邊的操作，每次操作會是以下三種中的一種：
         \begin{itemize}
@@ -15,13 +15,13 @@
     \end{problem}
 \end{frame}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     怎麼看起來跟線段樹沒什麼關係
 
     不急著砸是好事，我們先遺忘世界上所有資料結構
 \end{frame}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     如果每次詢問都是「一個點對所有點，分別都建一條權重為 $w$ 的邊」要怎麼辦？
 
     \begin{figure}[h!]
@@ -36,7 +36,7 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{\ctitle{「代理人」}}
+\begin{frame}{\btitle{「代理人」}}
     \only<1> {
         \begin{figure}[h!]
             \begin{center}
@@ -124,7 +124,7 @@
 
 \end{frame}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     回到原本的問題，每次詢問要連邊的區間不一樣，每次開新的中間點的話問題沒有半點解決
 
     如果可以預先決定少少的中間點，每個中間點連到一個區間？\\
@@ -135,7 +135,7 @@
     }
 \end{frame}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     \only<1> {
     \begin{figure}[h!]
         \begin{center}
@@ -242,13 +242,13 @@
     }
 \end{frame}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     對一個線段樹節點連一條邊，等同於對區間內所有點分別連邊
     
     如果把整張圖反過來：從線段樹節點連出來，等同於從區間內所有點分別連出來
 \end{frame}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     \begin{figure}[h!]
         \begin{center}
             \begin{tikzpicture}[
@@ -282,14 +282,14 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     預先建兩棵線段樹，一棵從根往葉子連邊，一棵從葉子往根連邊 \\
     每次詢問根據方向在對應的樹上連 $O(\log N)$ 條邊，就可以建出一樣的圖（在最短路的意義上一樣）
 
     單源最短路？dijkstra 就好
 \end{frame}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     最後建出來的圖上：
     \begin{itemize}
         \item 一棵線段樹有 $2N$ 個節點，但是兩棵線段樹葉節點可以共用，總共 $3N$ 個點
@@ -298,7 +298,7 @@
     時間複雜度 $O((N + Q \log N) \log N)$
 \end{frame}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     線段樹本身和我們是怎麼建圖的並\yum{沒有}關係 \\
     我們甚至可以用 sparse table 建類似的圖
 

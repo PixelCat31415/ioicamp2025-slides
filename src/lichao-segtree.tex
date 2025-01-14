@@ -1,6 +1,6 @@
-\subsection{李超線段樹}
+\section{李超線段樹}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     \begin{problem}[動態凸包]
         現在有 $Q$ 個操作，每個操作會是以下兩種中的一種：
 
@@ -17,14 +17,14 @@
     \end{problem}
 \end{frame}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     用 set 維護上凸包上的線段，維護線段控制的左右界，每次加入直線先搜他控制的區間，往左右殺掉其他線段，查詢的時候二分搜是哪條線段代值進去。注意 iterator 使用、全整求線交點......
 
     太麻煩了，而且常數不小\sout{，而且我沒寫過} \\
     有沒有簡單一點的辦法？
 \end{frame}
 
-\begin{frame}{\ectitle}
+\begin{frame}{\ebtitle}
     李超線段樹：
     \begin{itemize}
         \item 對要查詢的\yum{值域}開線段樹，葉子代表單一一個 $x$ 的值
@@ -36,7 +36,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{\ctitle{插入直線}}
+\begin{frame}{\btitle{插入直線}}
     原本節點上有一條直線 \\
     這次詢問想插入另外一條直線
 
@@ -44,7 +44,7 @@
     誰要留下來？另一條線要去哪裡？
 \end{frame}
 
-\begin{frame}{\ctitle{插入直線}}
+\begin{frame}{\btitle{插入直線}}
     \only<1> {
         \begin{centikz}
             \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
@@ -92,7 +92,7 @@
     }
 \end{frame}
 
-\begin{frame}{\ctitle{插入直線}}
+\begin{frame}{\btitle{插入直線}}
     \only<1> {
         \begin{centikz}
             \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
@@ -140,7 +140,7 @@
     }
 \end{frame}
 
-\begin{frame}{\ctitle{插入直線}}
+\begin{frame}{\btitle{插入直線}}
     一條直線在中點輸掉之後不能直接扔掉，因為他還沒輸光，區間內某些 $x$ 的範圍可能還需要他
 
     在中點輸掉的話，一定也會在左右其中一邊輸光 \\
@@ -149,7 +149,7 @@
     到葉子還輸的話那這條線徹底不會被任何人需要
 \end{frame}
 
-\begin{frame}{\ctitle{插入直線}}
+\begin{frame}{\btitle{插入直線}}
     \only<1> {
         \begin{centikz}
             \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
@@ -207,7 +207,7 @@
     }
 \end{frame}
 
-\begin{frame}{\ctitle{插入直線}}
+\begin{frame}{\btitle{插入直線}}
     從根節點出發，到葉節點為止：
 
     \begin{itemize}
@@ -223,7 +223,7 @@
     時間複雜度 $O(\text{線段樹高}) = O(\log N)$
 \end{frame}
 
-\begin{frame}{\ctitle{單點查詢}}
+\begin{frame}{\btitle{單點查詢}}
     直線被扔到隔壁節點，代表這個範圍的 $x$ 全都用不到這條直線 \\
     一個 $x$ 可能用到的直線，都存在他的祖先們身上
 
@@ -235,10 +235,10 @@
     時間複雜度 $O(\text{線段樹高}) = O(\log N)$
 \end{frame}
 
-\begin{frame}[fragile]{\ctitle{實做}}
+\begin{frame}[fragile]{\btitle{實做}}
     包裝直線作為函數使用
     
-    \begin{minted}{cpp}
+    \begin{minted}[linenos=false]{cpp}
         struct Line {
             int a, b;  // y = ax + b
             Line(int _a = 0, int _b = 0): a(_a), b(_b) {}
@@ -247,7 +247,7 @@
     \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{\ctitle{實做}}
+\begin{frame}[fragile]{\btitle{實做}}
     插入直線
 
     \begin{itemize}
@@ -256,7 +256,7 @@
         \item 遞迴插入
     \end{itemize}
     
-    \begin{minted}{cpp}
+    \begin{minted}[linenos=false]{cpp}
         void insert(int id, int l, int r, Line ln) {
             int m = (l + r) / 2;
             if(lns[id](m) < ln(m)) swap(lns[id], ln);
@@ -267,7 +267,7 @@
     \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{\ctitle{實做}}
+\begin{frame}[fragile]{\btitle{實做}}
     單點查詢
 
     \begin{itemize}
@@ -275,7 +275,7 @@
         \item 檢查所有祖先存的直線，每個都代一次，回答最大的 $y$
     \end{itemize}
     
-    \begin{minted}{cpp}
+    \begin{minted}[linenos=false]{cpp}
         int qry(int id, int l, int r, int x) {
             int m = (l + r) / 2;
             int res = lns[id](x);
@@ -287,7 +287,7 @@
     \end{minted}
 \end{frame}
 
-\begin{frame}{\ctitle{座標壓縮}}
+\begin{frame}{\btitle{座標壓縮}}
     \begin{problem}[Line Add Get Min，Library Checker]
         你有 $N$ 條直線 $y = a_i x + b_i$。請你處理 $Q$ 個詢問：
 
@@ -304,7 +304,7 @@
     \end{problem}
 \end{frame}
 
-\begin{frame}{\ctitle{座標壓縮}}
+\begin{frame}{\btitle{座標壓縮}}
     剛剛對 $x$ 的值域 $1, 2, \dots, 10^5$ 開線段樹
 
     現在事先收集會被詢問到的 $x$ 座標 \\
@@ -313,7 +313,7 @@
     詢問是浮點數的時候也可以
 \end{frame}
 
-\begin{frame}{\ctitle{座標壓縮}}
+\begin{frame}{\btitle{座標壓縮}}
     如果事先不知道詢問位置呢？
 
     \only<2> {
@@ -321,7 +321,7 @@
     }
 \end{frame}
 
-\begin{frame}{\ctitle{插入線段}}
+\begin{frame}{\btitle{插入線段}}
     如果插入的不是直線，而是有左右範圍限制的線段呢？
     \begin{problem}[Segment Add Get Min，Library Checker]
         你有 $N$ 段\yum{線段} $y = a_i x + b_i$（$x \in [l_i, r_i)$）。請你處理 $Q$ 個詢問：
@@ -340,7 +340,7 @@
     \end{problem}
 \end{frame}
 
-\begin{frame}{\ctitle{插入線段}}
+\begin{frame}{\btitle{插入線段}}
     \only<1> {
         \begin{centikz}
             \draw[color=gray, dashed] (-5, 0) -- (-5, 5);
@@ -378,7 +378,7 @@
     }
 \end{frame}
 
-\begin{frame}{\ctitle{插入線段}}
+\begin{frame}{\btitle{插入線段}}
     一般線段樹是怎麼做區間修改的？
     \only<2-> {
         \\找 $O(\log N)$ 個節點覆蓋詢問的區間，修改那些節點
@@ -393,7 +393,7 @@
     }
 \end{frame}
 
-\begin{frame}{\ctitle{應用}}
+\begin{frame}{\btitle{應用}}
     \begin{itemize}
         \item 斜率優化 \emoji{white_check_mark}
         \item<2> 四邊形優化 \emoji{white_check_mark}
