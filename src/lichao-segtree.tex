@@ -404,4 +404,107 @@
     }
 \end{frame}
 
-% todo: li-chao segtree extensions
+\begin{frame}{\btitle{擴充版本}}
+    一般李超線段樹
+
+    \begin{itemize}
+        \item 區間跟直線取 max（$O(\log^2 N)$）
+        \item 單點求值（$O(\log N)$）
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\btitle{擴充版本}}
+    擴充（一）
+
+    \begin{itemize}
+        \item 區間跟直線取 max（$O(\log^2 N)$）
+        \item \strong{區間加直線}（$O(\log^2 N)$）
+        \item 單點求值（$O(\log N)$）
+    \end{itemize}
+
+    擴充（二）
+
+    \begin{itemize}
+        \item 區間跟直線取 max（$O(\log^2 N)$）
+        \item \strong{區間加值}（$O(\log^2 N)$）
+        \item \strong{區間求最大值}（$O(\log N)$）
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\btitle{擴充版本（一）}}
+    前面的作法照做？加直線的標記可能會跑到以前插入的直線底下
+
+    \todo 插圖
+\end{frame}
+
+\begin{frame}{\btitle{擴充版本（一）}}
+    差別在於，一般李超線段樹的操作\strong{可以交換}\\
+    有區間加直線之後操作\strong{不能交換}
+
+    \only<2> {
+        在一般線段樹上，我們用\yum{下推標記}來解決標記的順序問題\\
+        同理，李超線段樹上的直線標記也需要往下推
+    }
+\end{frame}
+
+\begin{frame}{\btitle{擴充版本（一）}}
+    下推直線：對左右子樹都做一次插入直線，清掉原本紀錄的直線 \\
+    加值時，往下遞迴之前先下推當前節點上的直線
+
+    下推一次時間複雜度 $O(\log N)$\\
+    區間加直線的時候要下推 $O(\log N)$ 次\\
+    總複雜度 $O(\log^2 N)$
+\end{frame}
+
+\begin{frame}{\btitle{擴充版本（二）}}
+    同樣的道理，加值時，往下遞迴之前先下推當前節點上的直線\\
+    區間最大值像一般線段樹一樣維護
+\end{frame}
+
+\begin{frame}{\btitle{擴充版本}}
+    李超線段樹上，節點上的直線也可以視為一種懶人標記！
+\end{frame}
+
+\begin{frame}{\btitle{擴充版本}}
+    那，為什麼
+
+    \begin{itemize}
+        \item 擴充（一）
+        \begin{itemize}
+            \item 區間跟直線取 max（$O(\log^2 N)$）
+            \item \strong{區間加直線}（$O(\log^2 N)$）
+            \item 單點求值（$O(\log N)$）
+        \end{itemize}
+
+        \item 擴充（二）
+        \begin{itemize}
+            \item 區間跟直線取 max（$O(\log^2 N)$）
+            \item \strong{區間加值}（$O(\log^2 N)$）
+            \item \strong{區間求最大值}（$O(\log N)$）
+        \end{itemize}
+    \end{itemize}
+
+    不能是
+
+    \begin{itemize}
+        \item 擴充（一）$+$（二）
+        \begin{itemize}
+            \item 區間跟直線取 max（$O(\log^2 N)$）
+            \item \strong{區間加直線}（$O(\log^2 N)$）
+            \item \strong{區間求最大值}（$O(\log N)$）
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\btitle{擴充版本}}
+    \begin{itemize}
+        \item 擴充（一）$+$（二）
+        \begin{itemize}
+            \item 區間跟直線取 max（$O(\log^2 N)$）
+            \item \strong{區間加直線}（$O(\log^2 N)$）
+            \item \strong{區間求最大值}（$O(\log N)$）
+        \end{itemize}
+    \end{itemize}
+
+    講義有討論，不過還是值得給大家思考
+\end{frame}
