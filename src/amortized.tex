@@ -109,7 +109,7 @@
 \begin{frame}[fragile]{\ebtitle}
     \begin{minted}[linenos=false]{cpp}
         void modify(int node, int l, int r, int ql, int qr) {
-            if(全距 <= 1) {
+            if(l >= ql && r <= qr && 全距 <= 1) {
                 give_tag(node); return;
             }
             push(node);
@@ -513,7 +513,7 @@
         \begin{itemize}
             \item $1\;i$：輸出 $a_i$。
             \item $2\;l\;r\;x$：代表將 $[l,r]$ 區間的每個數字 $a_i$ 改成 $x$，保證 $x$ 是好的。
-            \item $3\;l\;r\;c$：代表將 $[l,r]$ 區間的每個數字加上 $c$，並重複該操作直到 $[l,r]$ 區間的每個數字都是好的為止。
+            \item $3\;l\;r\;c$：代表將 $[l,r]$ 區間的每個數字加上 $c$，並重複做\yum{區間加值}直到 $[l,r]$ 區間的每個數字都是好的為止。
         \end{itemize}
 
         注意到每次操作後，所有數字都會是好的。
@@ -527,13 +527,31 @@
 \end{frame}
 
 \begin{frame}{\btitle{Bear and Bad Powers of 42}}
+    「重複做區間加值直到 $[l,r]$ 區間的每個數字都是好的為止」？
+
+    例：序列 $[40, 41]$ 加值 $c = 1$ \\
+    $[40, 41] \rightarrow [41, \yum{42}] \rightarrow [\yum{42}, 43] \rightarrow [43, 44]$ \\
+    最終序列 $[43, 44]$
+\end{frame}
+
+\begin{frame}{\btitle{Bear and Bad Powers of 42}}
     如果沒有區間改值，
     
     \begin{itemize}
         \item 一個數字頂多被加到 $NQ = 10^{14}$ 左右，而 $10^{14}$ 以內的 $42$ 冪次只有 $\log_{42} 10^{14}$ 不到十個
         \item 維護每個數字離下一個 $42$ 冪次還有多遠
-        \item 時間複雜度 $O((N + Q) \log N \log_{42} NQ)$
     \end{itemize}
+    \begin{enumerate}
+        \item 區間減值
+        \item 區間詢問最小值
+        \begin{itemize}
+            \item $> 0$？做完了，沒人壞掉，結束
+            \item $= 0$？有人剛好壞掉，單點改值，再區間減值一次
+            \item $< 0$？有人冪次變高，單點改值，再區間查最小值一次
+        \end{itemize}
+    \end{enumerate}
+
+    時間複雜度 $O((N + Q) \log N \log_{42} NQ)$
 \end{frame}
 
 \begin{frame}{\btitle{Bear and Bad Powers of 42}}
@@ -561,6 +579,7 @@
         \item 被區間改值的那段數字視為「一坨」
         \item 區間操作的時候可能把一坨切成兩坨
         \item 一整坨可以一起加值
+        \item 看起來像 treap，不過可以用線段樹實做
         \item 時間複雜度 $O((N + Q) \log N \log_{42} NQ)$
     \end{itemize}
 \end{frame}

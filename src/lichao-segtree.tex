@@ -18,6 +18,10 @@
 \end{frame}
 
 \begin{frame}{\ebtitle}
+    \todo 插圖
+\end{frame}
+
+\begin{frame}{\ebtitle}
     用 set 維護上凸包上的線段，維護線段控制的左右界，每次加入直線先搜他控制的區間，往左右殺掉其他線段，查詢的時候二分搜是哪條線段代值進去。注意 iterator 使用、全整求線交點......
 
     太麻煩了，而且常數不小\sout{，而且我沒寫過} \\
@@ -396,10 +400,16 @@
 \begin{frame}{\btitle{應用}}
     \begin{itemize}
         \item 斜率優化 \emoji{white_check_mark}
-        \item<2> 四邊形優化 \emoji{white_check_mark}
+        \only<2-> {
+            \begin{itemize}
+                \item 詢問、斜率單調？單調 queue、stack？
+                \item 真的每次都有必要用到李超嗎？
+            \end{itemize}
+        }
+        \item<3> 四邊形優化 \emoji{white_check_mark}
     \end{itemize}
 
-    \only<2> {
+    \only<3> {
         不只是直線，有\strong{優超性}的函數都可以
     }
 \end{frame}

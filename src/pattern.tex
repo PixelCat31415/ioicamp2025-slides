@@ -17,20 +17,26 @@
 \end{frame}
 
 \begin{frame}{\btitle{Taxis}}
-    \begin{problem}[Taxis，POI 2018]
-        現在有 $n$ 台計程車編號 $1\sim n$，對於第 $i$ 台計程車，給定 $s_i,c_i$，代表該台計程車的收費方式為 $s_i + d\times c_i$，其中 $d$ 為里程數。
+    \only<1,3-> {
+        \begin{problem}[Taxis，POI 2018]
+            現在有 $n$ 台計程車編號 $1\sim n$，對於第 $i$ 台計程車，給定 $s_i,c_i$，代表該台計程車的收費方式為 $s_i + d\times c_i$，其中 $d$ 為里程數。
+    
+            給定一個 $1\sim n$的排列，請問是否存在一個里程數 $x/y$，使得把所有計程車的編號照著收費由小到大列出\only<1-4>{恰好是這個排列}\only<5>{\yum{恰好是這個排列？？？}}（當收費價格一樣，順序可以任意安排），若存在的話請輸出任意一組解，否則輸出「NIE」。
+    
+            \only<1-3> {
+                \only<1>{接著會有 $q$ 筆修改}\only<3>{\yum{接著會有 $q$ 筆修改}}，每筆修改會有 $a_i,b_i$，代表交換排列在 $a_i$ 和 $b_i$ 的數字，每次交換後皆須輸出先前問題的答案。\only<3>{\yum{？？？}}
+            }
+    
+            \begin{itemize}
+                \item $1\le n\le 5\times10^5$。
+                \item $1\le q\le 5\times10^5$。
+            \end{itemize}
+        \end{problem}
+    }
 
-        給定一個 $1\sim n$的排列，請問是否存在一個里程數 $x/y$，使得把所有計程車的編號照著收費由小到大列出\only<1-3>{恰好是這個排列}\only<4>{\yum{恰好是這個排列？？？}}（當收費價格一樣，順序可以任意安排），若存在的話請輸出任意一組解，否則輸出「NIE」。
-
-        \only<1-2> {
-            \only<1>{接著會有 $q$ 筆修改}\only<2>{\yum{接著會有 $q$ 筆修改}}，每筆修改會有 $a_i,b_i$，代表交換排列在 $a_i$ 和 $b_i$ 的數字，每次交換後皆須輸出先前問題的答案。\only<2>{\yum{？？？}}
-        }
-
-        \begin{itemize}
-            \item $1\le n\le 5\times10^5$。
-            \item $1\le q\le 5\times10^5$。
-        \end{itemize}
-    \end{problem}
+    \only<2> {
+        \todo 插圖
+    }
 \end{frame}
 
 \begin{frame}{\btitle{Taxis}}
@@ -169,7 +175,7 @@
     \begin{problem}[Seats，IOI 2018]
         （完整敘述請見講義）\\
 
-        有 $H \times W$ 個位子排成一個矩形，還有 $HW$ 位選手每人分別佔一個位置。有幾個 $r \times c$ \yum{矩形區域}內坐的選手的編號恰好是 $0, 1, \dots, rc - 1$？\\
+        有 $H \times W$ 個位子排成一個矩形，還有 $HW$ 位選手每人分別佔一個位置。有幾個\yum{矩形}，使得矩形區域內坐的選手的編號恰好是 $0$ 開始的連續數字？\\
 
         支援 $Q$ 次修改，每次交換兩位選手的位置，每次交換完輸出以上問題的答案。\\
 
@@ -178,6 +184,10 @@
             \item $1 \le Q \le 5 \times 10^4$
         \end{itemize}
     \end{problem}
+\end{frame}
+
+\begin{frame}{\btitle{Seats}}
+    \todo 插圖
 \end{frame}
 
 \begin{frame}{\btitle{Seats}}
@@ -363,7 +373,7 @@
         \end{itemize}
     \end{problem}
 
-    在 NEOJ 788 有可以傳的 Judge
+    在 Codeforces 526F 有可以傳的 Judge
 \end{frame}
 
 \begin{frame}{\btitle{好的連續子序列}}
@@ -399,6 +409,35 @@
     本題官方作法是分治，也有其他使用大資料結構但可以時限內通過的作法
 
     你能想到幾種不同的作法？
+\end{frame}
+
+\begin{frame}{\btitle{好的連續子序列：番外}}
+    關鍵觀察：好區間 $\iff r - l = \max_{l \leq i \leq r}(a_i) - \min_{l \leq i \leq r}(a_i)$
+
+    \only<2> {
+        分治作法（$O(N \log N)$）
+    
+        \begin{itemize}
+            \item 序列切兩半，數跨兩邊的好的子序列
+            \begin{itemize}
+                \item 分四種情況：最大值和最小值分別在左半邊還是右半邊
+                \item 時間複雜度 $O(N)$
+            \end{itemize}
+            \item 兩邊遞迴分治
+        \end{itemize}
+    }
+    \only<3> {
+        資料結構作法（$O(N \log N)$）
+    
+        \begin{itemize}
+            \item 掃描線枚舉區間右界，用資結維護每個左界對應到的 $\left(\left(\max - \min\right) - \left(r - l\right)\right)$
+            \begin{itemize}
+                \item $\max, \min$ 都可以單調隊列區間加值
+                \item 數數看有幾個 $0$
+                \item 這坨總是 $\geq 0$，可以數最小值個數
+            \end{itemize}
+        \end{itemize}
+    }
 \end{frame}
 
 \begin{frame}{\ebtitle}
