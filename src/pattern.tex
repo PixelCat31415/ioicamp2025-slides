@@ -16,15 +16,17 @@
     }
 \end{frame}
 
+\newcommand{\bigEmoji}[1]{\scalebox{2.5}{\twemoji{#1}}}
+\newcommand{\mediumEmoji}[1]{\raisebox{-0.05em}{\scalebox{1.7}{\twemoji{#1}}}}
 \begin{frame}{\btitle{Taxis}}
-    \only<1,3-> {
+    \only<1,6-> {
         \begin{problem}[Taxis，POI 2018]
             現在有 $n$ 台計程車編號 $1\sim n$，對於第 $i$ 台計程車，給定 $s_i,c_i$，代表該台計程車的收費方式為 $s_i + d\times c_i$，其中 $d$ 為里程數。
     
-            給定一個 $1\sim n$的排列，請問是否存在一個里程數 $x/y$，使得把所有計程車的編號照著收費由小到大列出\only<1-4>{恰好是這個排列}\only<5>{\yum{恰好是這個排列？？？}}（當收費價格一樣，順序可以任意安排），若存在的話請輸出任意一組解，否則輸出「NIE」。
+            給定一個 $1\sim n$的排列，請問是否存在一個里程數 $x/y$，使得把所有計程車的編號照著收費由小到大列出\only<1-7>{恰好是這個排列}\only<8>{\yum{恰好是這個排列？？？}}（當收費價格一樣，順序可以任意安排），若存在的話請輸出任意一組解，否則輸出「NIE」。
     
-            \only<1-3> {
-                \only<1>{接著會有 $q$ 筆修改}\only<3>{\yum{接著會有 $q$ 筆修改}}，每筆修改會有 $a_i,b_i$，代表交換排列在 $a_i$ 和 $b_i$ 的數字，每次交換後皆須輸出先前問題的答案。\only<3>{\yum{？？？}}
+            \only<1-6> {
+                \only<4>{接著會有 $q$ 筆修改}\only<6>{\yum{接著會有 $q$ 筆修改}}，每筆修改會有 $a_i,b_i$，代表交換排列在 $a_i$ 和 $b_i$ 的數字，每次交換後皆須輸出先前問題的答案。\only<6>{\yum{？？？}}
             }
     
             \begin{itemize}
@@ -34,8 +36,36 @@
         \end{problem}
     }
 
-    \only<2> {
-        \todo 插圖
+    \only<2-5> {
+        \begin{centikz}[scale=0.9]
+            \draw[color=gray, ->] (-5.5, 0) -- (5.5, 0);
+            \draw[color=gray, ->] (-5, -0.5) -- (-5, 5.5);
+            \node[gray, anchor=north] at (5.5, 0) {\bigEmoji{sport utility vehicle}\bigEmoji{dashing away}};
+            \node[gray, anchor=east]  at (-5, 5.5) {\bigEmoji{moneybag}};
+            \draw[name path=line1, color=Dandelion, thick] plot[domain=-5.5:5.5] (\x,{-0.3 * \x + 2.1});
+            \draw[name path=line2, color=Dandelion, thick] plot[domain=-5.5:5.5] (\x,{0.1 * \x + 3.0});
+            \draw[name path=line3, color=Dandelion, thick] plot[domain=-5.5:5.5] (\x,{0.4 * \x + 2.7});
+            \node[Dandelion, anchor=west] at (5.6, -0.3 * 5.5 + 2.1 + 0.1) {\underline{\mediumEmoji{taxi} $1$}};
+            \node[Dandelion, anchor=west] at (5.6,  0.1 * 5.5 + 3.0 + 0.1) {\underline{\mediumEmoji{taxi} $2$}};
+            \node[Dandelion, anchor=west] at (5.6,  0.4 * 5.5 + 2.7 + 0.1) {\underline{\mediumEmoji{taxi} $3$}};
+            \only<3> {
+                \draw[name path=vline, color=blue, dashed, very thick] (-1.5, -0.5) -- (-1.5, 5.5);
+                \node[anchor=south] at (-1.5, 5.5) {$[3, 1, 2]$ \emoji{check mark button}};
+                \fill [blue, right, name intersections={of=vline and line1}] (intersection-1) circle (2pt) node {$1$};
+                \fill [blue, above right, name intersections={of=vline and line2}] (intersection-1) circle (2pt) node {$2$};
+                \fill [blue, below right, name intersections={of=vline and line3}] (intersection-1) circle (2pt) node {$3$};
+            }
+            \only<4> {
+                \draw[name path=vline, color=blue, dashed, very thick] (0, -0.5) -- (0, 5.5);
+                \node[anchor=south] at (0, 5.5) {$[1, 3, 2]$ \emoji{check mark button}};
+                \fill [blue, right, name intersections={of=vline and line1}] (intersection-1) circle (2pt) node {$1$};
+                \fill [blue, above right, name intersections={of=vline and line2}] (intersection-1) circle (2pt) node {$2$};
+                \fill [blue, right, name intersections={of=vline and line3}] (intersection-1) circle (2pt) node {$3$};
+            }
+            \only<5> {
+                \node[anchor=south] at (0, 5.5) {$[2, 3, 1]$ \emoji{cross mark}};
+            }
+        \end{centikz}
     }
 \end{frame}
 
