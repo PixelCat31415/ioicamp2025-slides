@@ -290,7 +290,87 @@
 \end{frame}
 
 \begin{frame}{\ebtitle}
-    \todo 插圖
+    \begin{centikz}[
+        seg/.style={draw, thick, rectangle, minimum width=0.5cm, anchor=north west},
+        arrow/.style={->, thick, >={Stealth}, blue},
+        ndblue/.style={blue, fill={blue!20!white}},
+        ndwhite/.style={blue, fill={white}},
+    ]
+        \node[seg, ndwhite, minimum height=5.4cm] (nd1-0) at (0, -0.7) {};\node[seg, ndwhite, minimum height=2.6cm] (nd1-1) at (1, -0.7) {};\node[seg, ndwhite, minimum height=1.2cm] (nd1-3) at (2, -0.7) {};\node[seg, ndblue, minimum height=0.5cm] (nd1-7) at (3, -0.7) {1};\node[seg, ndblue, minimum height=0.5cm] (nd1-8) at (3, -1.4) {2};\node[seg, ndwhite, minimum height=1.2cm] (nd1-4) at (2, -2.1) {};\node[seg, ndblue, minimum height=0.5cm] (nd1-9) at (3, -2.1) {3};\node[seg, ndblue, minimum height=0.5cm] (nd1-10) at (3, -2.8) {4};\node[seg, ndwhite, minimum height=2.6cm] (nd1-2) at (1, -3.5) {};\node[seg, ndwhite, minimum height=1.2cm] (nd1-5) at (2, -3.5) {};\node[seg, ndblue, minimum height=0.5cm] (nd1-11) at (3, -3.5) {5};\node[seg, ndblue, minimum height=0.5cm] (nd1-12) at (3, -4.2) {6};\node[seg, ndwhite, minimum height=1.2cm] (nd1-6) at (2, -4.9) {};\node[seg, ndblue, minimum height=0.5cm] (nd1-13) at (3, -4.9) {7};\node[seg, ndblue, minimum height=0.5cm] (nd1-14) at (3, -5.6) {8};\node[seg, ndwhite, minimum height=5.4cm] (nd2-0) at (6, -0.7) {};\node[seg, ndwhite, minimum height=2.6cm] (nd2-1) at (5, -0.7) {};\node[seg, ndwhite, minimum height=1.2cm] (nd2-3) at (4, -0.7) {};\node[seg, ndblue, minimum height=0.5cm] (nd2-7) at (3, -0.7) {1};\node[seg, ndblue, minimum height=0.5cm] (nd2-8) at (3, -1.4) {2};\node[seg, ndwhite, minimum height=1.2cm] (nd2-4) at (4, -2.1) {};\node[seg, ndblue, minimum height=0.5cm] (nd2-9) at (3, -2.1) {3};\node[seg, ndblue, minimum height=0.5cm] (nd2-10) at (3, -2.8) {4};\node[seg, ndwhite, minimum height=2.6cm] (nd2-2) at (5, -3.5) {};\node[seg, ndwhite, minimum height=1.2cm] (nd2-5) at (4, -3.5) {};\node[seg, ndblue, minimum height=0.5cm] (nd2-11) at (3, -3.5) {5};\node[seg, ndblue, minimum height=0.5cm] (nd2-12) at (3, -4.2) {6};\node[seg, ndwhite, minimum height=1.2cm] (nd2-6) at (4, -4.9) {};\node[seg, ndblue, minimum height=0.5cm] (nd2-13) at (3, -4.9) {7};\node[seg, ndblue, minimum height=0.5cm] (nd2-14) at (3, -5.6) {8};
+        \draw[arrow] (nd1-3) -- (nd1-7);\draw[arrow] (nd1-3) -- (nd1-8);\draw[arrow] (nd1-4) -- (nd1-9);\draw[arrow] (nd1-4) -- (nd1-10);\draw[arrow] (nd1-1) -- (nd1-3);\draw[arrow] (nd1-1) -- (nd1-4);\draw[arrow] (nd1-5) -- (nd1-11);\draw[arrow] (nd1-5) -- (nd1-12);\draw[arrow] (nd1-6) -- (nd1-13);\draw[arrow] (nd1-6) -- (nd1-14);\draw[arrow] (nd1-2) -- (nd1-5);\draw[arrow] (nd1-2) -- (nd1-6);\draw[arrow] (nd1-0) -- (nd1-1);\draw[arrow] (nd1-0) -- (nd1-2);\draw[arrow] (nd2-7) -- (nd2-3);\draw[arrow] (nd2-8) -- (nd2-3);\draw[arrow] (nd2-9) -- (nd2-4);\draw[arrow] (nd2-10) -- (nd2-4);\draw[arrow] (nd2-3) -- (nd2-1);\draw[arrow] (nd2-4) -- (nd2-1);\draw[arrow] (nd2-11) -- (nd2-5);\draw[arrow] (nd2-12) -- (nd2-5);\draw[arrow] (nd2-13) -- (nd2-6);\draw[arrow] (nd2-14) -- (nd2-6);\draw[arrow] (nd2-5) -- (nd2-2);\draw[arrow] (nd2-6) -- (nd2-2);\draw[arrow] (nd2-1) -- (nd2-0);\draw[arrow] (nd2-2) -- (nd2-0);
+    \end{centikz}
+\end{frame}
+
+\begin{frame}{\ebtitle}
+    \only<1> {
+        節點 $5$ 連到區間 $[3, 4]$
+
+        \begin{centikz}[
+            seg/.style={draw, thick, rectangle, minimum width=0.5cm, anchor=north west},
+            arrow/.style={->, opacity=0.3, thick, >={Stealth}, gray},
+            ndblue/.style={gray, opacity=0.3, fill={gray!20!white}},
+            ndred/.style={red, fill={red!5!white}},
+            ndwhite/.style={gray, opacity=0.3, fill={white}},
+        ]
+            \node[seg, ndwhite, minimum height=5.4cm] (nd1-0) at (0, -0.7) {};\node[seg, ndwhite, minimum height=2.6cm] (nd1-1) at (1, -0.7) {};\node[seg, ndwhite, minimum height=1.2cm] (nd1-3) at (2, -0.7) {};\node[seg, ndblue, minimum height=0.5cm] (nd1-7) at (3, -0.7) {1};\node[seg, ndblue, minimum height=0.5cm] (nd1-8) at (3, -1.4) {2};\node[seg, ndred, minimum height=1.2cm] (nd1-4) at (2, -2.1) {};\node[seg, ndblue, minimum height=0.5cm] (nd1-9) at (3, -2.1) {3};\node[seg, ndblue, minimum height=0.5cm] (nd1-10) at (3, -2.8) {4};\node[seg, ndwhite, minimum height=2.6cm] (nd1-2) at (1, -3.5) {};\node[seg, ndwhite, minimum height=1.2cm] (nd1-5) at (2, -3.5) {};\node[seg, ndred, minimum height=0.5cm] (nd1-11) at (3, -3.5) {5};\node[seg, ndblue, minimum height=0.5cm] (nd1-12) at (3, -4.2) {6};\node[seg, ndwhite, minimum height=1.2cm] (nd1-6) at (2, -4.9) {};\node[seg, ndblue, minimum height=0.5cm] (nd1-13) at (3, -4.9) {7};\node[seg, ndblue, minimum height=0.5cm] (nd1-14) at (3, -5.6) {8};\node[seg, ndwhite, minimum height=5.4cm] (nd2-0) at (6, -0.7) {};\node[seg, ndwhite, minimum height=2.6cm] (nd2-1) at (5, -0.7) {};\node[seg, ndwhite, minimum height=1.2cm] (nd2-3) at (4, -0.7) {};\node[seg, ndblue, minimum height=0.5cm] (nd2-7) at (3, -0.7) {1};\node[seg, ndblue, minimum height=0.5cm] (nd2-8) at (3, -1.4) {2};\node[seg, ndwhite, minimum height=1.2cm] (nd2-4) at (4, -2.1) {};\node[seg, ndblue, minimum height=0.5cm] (nd2-9) at (3, -2.1) {3};\node[seg, ndblue, minimum height=0.5cm] (nd2-10) at (3, -2.8) {4};\node[seg, ndwhite, minimum height=2.6cm] (nd2-2) at (5, -3.5) {};\node[seg, ndwhite, minimum height=1.2cm] (nd2-5) at (4, -3.5) {};\node[seg, ndred, minimum height=0.5cm] (nd2-11) at (3, -3.5) {5};\node[seg, ndblue, minimum height=0.5cm] (nd2-12) at (3, -4.2) {6};\node[seg, ndwhite, minimum height=1.2cm] (nd2-6) at (4, -4.9) {};\node[seg, ndblue, minimum height=0.5cm] (nd2-13) at (3, -4.9) {7};\node[seg, ndblue, minimum height=0.5cm] (nd2-14) at (3, -5.6) {8};
+            \draw[arrow] (nd1-3) -- (nd1-7);\draw[arrow] (nd1-3) -- (nd1-8);\draw[arrow] (nd1-4) -- (nd1-9);\draw[arrow] (nd1-4) -- (nd1-10);\draw[arrow] (nd1-1) -- (nd1-3);\draw[arrow] (nd1-1) -- (nd1-4);\draw[arrow] (nd1-5) -- (nd1-11);\draw[arrow] (nd1-5) -- (nd1-12);\draw[arrow] (nd1-6) -- (nd1-13);\draw[arrow] (nd1-6) -- (nd1-14);\draw[arrow] (nd1-2) -- (nd1-5);\draw[arrow] (nd1-2) -- (nd1-6);\draw[arrow] (nd1-0) -- (nd1-1);\draw[arrow] (nd1-0) -- (nd1-2);\draw[arrow] (nd2-7) -- (nd2-3);\draw[arrow] (nd2-8) -- (nd2-3);\draw[arrow] (nd2-9) -- (nd2-4);\draw[arrow] (nd2-10) -- (nd2-4);\draw[arrow] (nd2-3) -- (nd2-1);\draw[arrow] (nd2-4) -- (nd2-1);\draw[arrow] (nd2-11) -- (nd2-5);\draw[arrow] (nd2-12) -- (nd2-5);\draw[arrow] (nd2-13) -- (nd2-6);\draw[arrow] (nd2-14) -- (nd2-6);\draw[arrow] (nd2-5) -- (nd2-2);\draw[arrow] (nd2-6) -- (nd2-2);\draw[arrow] (nd2-1) -- (nd2-0);\draw[arrow] (nd2-2) -- (nd2-0);
+            \coordinate (p0) at (nd1-11);
+            \coordinate (p1) at ($(nd1-11 -| nd2-0)+(0.3, 0)$);
+            \coordinate (p8) at ($(nd1-4 -| nd1-0)+(-0.3, 0)$);
+            \coordinate (p9) at (nd1-4);
+            \coordinate (p4) at (p1 |- 0, -0.4);
+            \coordinate (p5) at (p8 |- 0, -0.4);
+            \coordinate (p2) at ($(p1)+(0.3, 0.3)$);
+            \coordinate (p3) at ($(p4)+(0.3, -0.3)$);
+            \coordinate (p6) at ($(p5)+(-0.3, -0.3)$);
+            \coordinate (p7) at ($(p8)+(-0.3, 0.3)$);
+            \draw[red, ultra thick, ->, >={Latex}]
+                (nd1-11) to[line to] (p1)
+                    to[line to, out=0, in=270] (p2)
+                    to[line to] (p3)
+                    to[line to, out=90, in=0] (p4)
+                    to[line to] (p5)
+                    to[line to, out=180, in=90] (p6)
+                    to[line to] (p7)
+                    to[line to, out=270, in=180] (p8)
+                    to[line to] (nd1-4);
+        \end{centikz}
+    }
+
+    \only<2> {
+        區間 $[3, 4]$ 連到節點 $5$
+
+        \begin{centikz}[
+            seg/.style={draw, thick, rectangle, minimum width=0.5cm, anchor=north west},
+            arrow/.style={->, opacity=0.3, thick, >={Stealth}, gray},
+            ndblue/.style={gray, opacity=0.3, fill={gray!20!white}},
+            ndred/.style={red, fill={red!5!white}},
+            ndwhite/.style={gray, opacity=0.3, fill={white}},
+        ]
+            \node[seg, ndwhite, minimum height=5.4cm] (nd1-0) at (0, -0.7) {};\node[seg, ndwhite, minimum height=2.6cm] (nd1-1) at (1, -0.7) {};\node[seg, ndwhite, minimum height=1.2cm] (nd1-3) at (2, -0.7) {};\node[seg, ndblue, minimum height=0.5cm] (nd1-7) at (3, -0.7) {1};\node[seg, ndblue, minimum height=0.5cm] (nd1-8) at (3, -1.4) {2};\node[seg, ndwhite, minimum height=1.2cm] (nd1-4) at (2, -2.1) {};\node[seg, ndblue, minimum height=0.5cm] (nd1-9) at (3, -2.1) {3};\node[seg, ndblue, minimum height=0.5cm] (nd1-10) at (3, -2.8) {4};\node[seg, ndwhite, minimum height=2.6cm] (nd1-2) at (1, -3.5) {};\node[seg, ndwhite, minimum height=1.2cm] (nd1-5) at (2, -3.5) {};\node[seg, ndblue, minimum height=0.5cm] (nd1-11) at (3, -3.5) {5};\node[seg, ndblue, minimum height=0.5cm] (nd1-12) at (3, -4.2) {6};\node[seg, ndwhite, minimum height=1.2cm] (nd1-6) at (2, -4.9) {};\node[seg, ndblue, minimum height=0.5cm] (nd1-13) at (3, -4.9) {7};\node[seg, ndblue, minimum height=0.5cm] (nd1-14) at (3, -5.6) {8};\node[seg, ndwhite, minimum height=5.4cm] (nd2-0) at (6, -0.7) {};\node[seg, ndwhite, minimum height=2.6cm] (nd2-1) at (5, -0.7) {};\node[seg, ndwhite, minimum height=1.2cm] (nd2-3) at (4, -0.7) {};\node[seg, ndblue, minimum height=0.5cm] (nd2-7) at (3, -0.7) {1};\node[seg, ndblue, minimum height=0.5cm] (nd2-8) at (3, -1.4) {2};\node[seg, ndred, minimum height=1.2cm] (nd2-4) at (4, -2.1) {};\node[seg, ndblue, minimum height=0.5cm] (nd2-9) at (3, -2.1) {3};\node[seg, ndblue, minimum height=0.5cm] (nd2-10) at (3, -2.8) {4};\node[seg, ndwhite, minimum height=2.6cm] (nd2-2) at (5, -3.5) {};\node[seg, ndwhite, minimum height=1.2cm] (nd2-5) at (4, -3.5) {};\node[seg, ndred, minimum height=0.5cm] (nd2-11) at (3, -3.5) {5};\node[seg, ndblue, minimum height=0.5cm] (nd2-12) at (3, -4.2) {6};\node[seg, ndwhite, minimum height=1.2cm] (nd2-6) at (4, -4.9) {};\node[seg, ndblue, minimum height=0.5cm] (nd2-13) at (3, -4.9) {7};\node[seg, ndblue, minimum height=0.5cm] (nd2-14) at (3, -5.6) {8};
+            \draw[arrow] (nd1-3) -- (nd1-7);\draw[arrow] (nd1-3) -- (nd1-8);\draw[arrow] (nd1-4) -- (nd1-9);\draw[arrow] (nd1-4) -- (nd1-10);\draw[arrow] (nd1-1) -- (nd1-3);\draw[arrow] (nd1-1) -- (nd1-4);\draw[arrow] (nd1-5) -- (nd1-11);\draw[arrow] (nd1-5) -- (nd1-12);\draw[arrow] (nd1-6) -- (nd1-13);\draw[arrow] (nd1-6) -- (nd1-14);\draw[arrow] (nd1-2) -- (nd1-5);\draw[arrow] (nd1-2) -- (nd1-6);\draw[arrow] (nd1-0) -- (nd1-1);\draw[arrow] (nd1-0) -- (nd1-2);\draw[arrow] (nd2-7) -- (nd2-3);\draw[arrow] (nd2-8) -- (nd2-3);\draw[arrow] (nd2-9) -- (nd2-4);\draw[arrow] (nd2-10) -- (nd2-4);\draw[arrow] (nd2-3) -- (nd2-1);\draw[arrow] (nd2-4) -- (nd2-1);\draw[arrow] (nd2-11) -- (nd2-5);\draw[arrow] (nd2-12) -- (nd2-5);\draw[arrow] (nd2-13) -- (nd2-6);\draw[arrow] (nd2-14) -- (nd2-6);\draw[arrow] (nd2-5) -- (nd2-2);\draw[arrow] (nd2-6) -- (nd2-2);\draw[arrow] (nd2-1) -- (nd2-0);\draw[arrow] (nd2-2) -- (nd2-0);
+            \coordinate (p0) at (nd2-4);
+            \coordinate (p1) at ($(nd2-4 -| nd2-0)+(0.3, 0)$);
+            \coordinate (p8) at ($(nd2-11 -| nd1-0)+(-0.3, 0)$);
+            \coordinate (p9) at (nd2-11);
+            \coordinate (p4) at (p1 |- 0, -0.4);
+            \coordinate (p5) at (p8 |- 0, -0.4);
+            \coordinate (p2) at ($(p1)+(0.3, 0.3)$);
+            \coordinate (p3) at ($(p4)+(0.3, -0.3)$);
+            \coordinate (p6) at ($(p5)+(-0.3, -0.3)$);
+            \coordinate (p7) at ($(p8)+(-0.3, 0.3)$);
+            \draw[red, ultra thick, ->, >={Latex}]
+                (nd2-4) to[line to] (p1)
+                    to[line to, out=0, in=270] (p2)
+                    to[line to] (p3)
+                    to[line to, out=90, in=0] (p4)
+                    to[line to] (p5)
+                    to[line to, out=180, in=90] (p6)
+                    to[line to] (p7)
+                    to[line to, out=270, in=180] (p8)
+                    to[line to] (nd2-11);
+        \end{centikz}
+    }
 \end{frame}
 
 \begin{frame}{\ebtitle}
