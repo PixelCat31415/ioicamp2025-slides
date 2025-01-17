@@ -216,8 +216,102 @@
     \end{problem}
 \end{frame}
 
+\newcommand{\DrawSeatsA}{
+    \draw[help lines, xshift=-0.5cm, yshift=-0.5cm] (0, 0) grid (3, 2);
+    \node at (0, 1) {4}; \node at (1, 1) {0}; \node at (2, 1) {3};
+    \node at (0, 0) {5}; \node at (1, 0) {1}; \node at (2, 0) {2};
+}
+\newcommand{\DrawSeatsB}{
+    \draw[help lines, xshift=-0.5cm, yshift=-0.5cm] (0, 0) grid (3, 2);
+    \node at (0, 1) {4}; \node at (1, 1) {5}; \node at (2, 1) {3};
+    \node at (0, 0) {0}; \node at (1, 0) {1}; \node at (2, 0) {2};
+}
+\newcommand{\DrawSeatsC}{
+    \draw[help lines, xshift=-0.5cm, yshift=-0.5cm] (0, 0) grid (3, 2);
+    \node at (0, 1) {4}; \node at (1, 1) {5}; \node at (2, 1) {3};
+    \node at (0, 0) {0}; \node at (1, 0) {2}; \node at (2, 0) {1};
+}
+
 \begin{frame}{\btitle{Seats}}
-    \todo 插圖
+    \only<1> {
+        \begin{centikz}
+            \DrawSeatsA
+
+            \tikzset{shift={(4  ,  1.1)}}
+            \fill[ForestGreen!10!white] (0.5, 0.5) rectangle (1.5, 1.5);
+            \DrawSeatsA
+            \draw[ForestGreen, very thick] (0.5, 0.5) rectangle (1.5, 1.5);
+            
+            \tikzset{shift={(0  , -2.2)}}
+            \fill[ForestGreen!10!white] (0.5, -0.5) rectangle (1.5, 1.5);
+            \DrawSeatsA
+            \draw[ForestGreen, very thick] (0.5, -0.5) rectangle (1.5, 1.5);
+
+            \tikzset{shift={(3.2,  2.2)}}
+            \fill[ForestGreen!10!white] (0.5, -0.5) rectangle (2.5, 1.5);
+            \DrawSeatsA
+            \draw[ForestGreen, very thick] (0.5, -0.5) rectangle (2.5, 1.5);
+
+            \tikzset{shift={(0  , -2.2)}}
+            \fill[ForestGreen!10!white] (-0.5, -0.5) rectangle (2.5, 1.5);
+            \DrawSeatsA
+            \draw[ForestGreen, very thick] (-0.5, -0.5) rectangle (2.5, 1.5);
+
+        \end{centikz}
+    }
+    \only<2> {
+        \begin{centikz}
+            \draw[help lines, xshift=-0.5cm, yshift=-0.5cm] (0, 0) grid (3, 2);
+            \node at (0, 1) {4}; \node at (1, 1) (nd2) {\yum{5}}; \node at (2, 1) {3};
+            \node at (0, 0) (nd1) {\yum{0}}; \node at (1, 0) {1}; \node at (2, 0) {2};
+            \draw[red, thick, <->, >={Latex}] (nd1) to (nd2);
+
+            \tikzset{shift={(4  ,  1.1)}}
+            \fill[ForestGreen!10!white] (-0.5, -0.5) rectangle (0.5, 0.5);
+            \DrawSeatsB
+            \draw[ForestGreen, very thick] (-0.5, -0.5) rectangle (0.5, 0.5);
+            
+            \tikzset{shift={(0  , -2.2)}}
+            \fill[ForestGreen!10!white] (-0.5, -0.5) rectangle (1.5, 0.5);
+            \DrawSeatsB
+            \draw[ForestGreen, very thick] (-0.5, -0.5) rectangle (1.5, 0.5);
+
+            \tikzset{shift={(3.2,  2.2)}}
+            \fill[ForestGreen!10!white] (-0.5, -0.5) rectangle (2.5, 0.5);
+            \DrawSeatsB
+            \draw[ForestGreen, very thick] (-0.5, -0.5) rectangle (2.5, 0.5);
+
+            \tikzset{shift={(0  , -2.2)}}
+            \fill[ForestGreen!10!white] (-0.5, -0.5) rectangle (2.5, 1.5);
+            \DrawSeatsB
+            \draw[ForestGreen, very thick] (-0.5, -0.5) rectangle (2.5, 1.5);
+
+        \end{centikz}
+    }
+    \only<3> {
+        \begin{centikz}
+            \draw[help lines, xshift=-0.5cm, yshift=-0.5cm] (0, 0) grid (3, 2);
+            \node at (0, 1) {4}; \node at (1, 1) {5}; \node at (2, 1) {3};
+            \node at (0, 0) {0}; \node at (1, 0) (nd1) {\yum{2}}; \node at (2, 0) (nd2) {\yum{1}};
+            \draw[red, thick, <->, >={Latex}] (nd1) to (nd2);
+
+            \tikzset{shift={(4  ,  1.1)}}
+            \fill[ForestGreen!10!white] (-0.5, -0.5) rectangle (0.5, 0.5);
+            \DrawSeatsC
+            \draw[ForestGreen, very thick] (-0.5, -0.5) rectangle (0.5, 0.5);
+            
+            \tikzset{shift={(0  , -2.2)}}
+            \fill[ForestGreen!10!white] (-0.5, -0.5) rectangle (2.5, 1.5);
+            \DrawSeatsC
+            \draw[ForestGreen, very thick] (-0.5, -0.5) rectangle (2.5, 1.5);
+
+            \tikzset{shift={(3.2,  2.2)}}
+            \fill[ForestGreen!10!white] (-0.5, -0.5) rectangle (2.5, 0.5);
+            \DrawSeatsC
+            \draw[ForestGreen, very thick] (-0.5, -0.5) rectangle (2.5, 0.5);
+
+        \end{centikz}
+    }
 \end{frame}
 
 \begin{frame}{\btitle{Seats}}
