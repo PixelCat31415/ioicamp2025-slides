@@ -84,7 +84,9 @@
 \begin{frame}[fragile]{\ebtitle}
     加入操作：像區間修改一樣，把要加的邊紀錄在被修改到的節點上
     \begin{minted}[linenos=false]{cpp}
-        void insert_event(int idx, int lb, int rb, int ql, int qr, Event e) {
+        void insert_event(
+            int idx, int lb, int rb, int ql, int qr, Event e
+        ) {
             if (ql <= lb && rb <= qr) {
                 tr[idx].push_back(e);
                 return;
@@ -135,8 +137,8 @@
     \begin{itemize}
         \item 每次 DSU 加邊只會把一個節點接到另一個身上
         \item 紀錄每次加邊是誰連到誰，undo 的時候還原這兩個節點的狀態
-        \item 啟發式合併？ \emoji{check mark button}
-        \item 路徑壓縮？ \emoji{cross mark}
+        \item 啟發式合併 \emoji{check mark button}
+        \item 路徑壓縮 \emoji{cross mark}
     \end{itemize}
 \end{frame}
 
